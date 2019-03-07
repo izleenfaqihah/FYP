@@ -17,7 +17,18 @@ Route::get('/', function () {
 
 Auth::routes();
 
+//DASHBOARD
 Route::get('/home', 'HomeController@index')->name('home');
+
+//PROJECT
 Route::get('/project', 'ProjectController@getProject')->name('project');
+
+//TASK
 Route::get('/task', 'TaskController@getTask')->name('task');
+
+Route::post('/task', 'TaskController@store')->name('task.submit');
+
+
+
+//ANALYTIC
 Route::get('/analytic', 'AnalyticController@getAnalytic')->name('analytic');
