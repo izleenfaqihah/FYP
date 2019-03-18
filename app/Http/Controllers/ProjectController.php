@@ -8,6 +8,9 @@ class ProjectController extends Controller
 {
     public function getProject()
     {
-        return view('project'); 
+        return view('project');
     }
+
 }
+
+?>

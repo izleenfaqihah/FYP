@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>  
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <style>
 	
 </style>
+
 <body>
 	
 	<div class="container-fluid">
@@ -19,5 +22,7 @@
 			</nav>
         </div>
     </div>
+
+    
 </body>
 </html>
