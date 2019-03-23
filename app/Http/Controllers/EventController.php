@@ -39,5 +39,11 @@ class EventController extends Controller
 
     }
 
+    public function destroy($id)
+    {
+      $events = Event::find($id);
+      $events->delete();
+    }
+
 
 }

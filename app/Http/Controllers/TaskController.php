@@ -44,7 +44,6 @@ class TaskController extends Controller
         default:
           $events = Event::find($id);
           $events->delete();
-          $events->save();
           break;
       }
 
@@ -93,7 +92,13 @@ class TaskController extends Controller
     {
     	$tasks = Task::find($id);
       $tasks->delete();
-      return redirect()->route('task')->with('success','Task has been deleted succesfully');
+
+      // DB::table("tasks")->where("id", $id)->delete();
+      // DB::table("events")->where("id", $id)->delete();
+
+      return redirect()->route('task');
+
+      
     }
     
 }
