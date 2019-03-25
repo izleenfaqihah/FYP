@@ -1,53 +1,12 @@
-/*
- * Base structure
- */
 
-/* Move down content because we have a fixed navbar that is 3.5rem tall */
-/*body {
-  padding-top: 0;
-}*/
-
-/*
- * Typography
- */
-
-/*h1 {
-  padding-bottom: 9px;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #eee;
-}*/
-
-/*
- * Sidebar
- */
-
-.sidebar {
+.list-group {
   height: 100%;
   position: absolute;
-  top: 56px;
-  margin-bottom: -5000px;
-  padding-bottom: 5000px; 
+  top: 65px;
+  width: 225px;
   border-right: 1px solid #fff;
   overflow: hidden;
 }
 
-
-/* Placeholders */
-.placeholders {
-  padding-bottom: 3rem;
-}
-
-.placeholder img {
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-}
-.bg-light {
-  background-color: #ffffff !important;
-}
-.sidebar a:hover{
-  color: black;
-  background-color: rgba(230, 230, 250, 0.2);
-
-}
 
 

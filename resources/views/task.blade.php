@@ -12,6 +12,22 @@
   	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+  	<!-- Favicon -->
+    <link rel="shortcut icon" href="{{ asset('images/favicon.jpg') }}">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    {{-- <link rel="styleeheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> --}}
+
+    <!-- toastr notifications -->
+    {{-- <link rel="stylesheet" href="{{ asset('toastr/toastr.min.css') }}"> --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+
+
+    <!-- Font Awesome -->
+    {{-- <link rel="stylesheet" href="{{ asset('font-awesome/css/font-awesome.min.css') }}"> --}}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
 
 </head>
 <style type="text/css">
@@ -44,7 +60,7 @@
 					            {{ csrf_field() }}
 
 					            <!-- Task Name -->
-					            <table class="table table-hover">
+					            <table class="table">
 		                            <thead>
 		                                <tr>
 		                                <th scope="col">Task</th>
@@ -69,7 +85,7 @@
 		                            	<td><input type="text" name="due_date" id="task-date" class="date form-control" autocomplete="off" required=""></td>
 		                            	<!-- Add Task Button -->
 		                            	<td>
-		                            		<button type="submit" value="add" name="submitbutton" class="btn btn-outline-success">
+		                            		<button type="submit" value="add" name="submitbutton" class="btn btn-success">
 					                        <i class="fa fa-plus"></i> 
 					                    	</button>
 					                	</td>
@@ -115,7 +131,7 @@
                                 			<td contenteditable="true">{{$task->due_date}}</td>
                                 			<td>
                                 				<a href="{{ route('task.delete',['id' => $task->id]) }}">
-                                					<button type="button" value="delete" name="submitbutton" class="btn btn-outline-danger">
+                                					<button type="button" value="delete" name="submitbutton" class="btn btn-danger">
 							                        	<i class="fa fa-trash"></i> 
 							                    	</button>
                                 				</a>

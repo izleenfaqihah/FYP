@@ -2,26 +2,31 @@
 <html>
 <head>  
 	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="style.css">
+	
 </head>
 <style>
 	
 </style>
 
 <body>
-	
-	<div class="container-fluid">
-        <div class="row">
-            <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
-            	
-				  <a class="nav-link" href="{{ route('events') }}">Dashboard</a>
-				  <a class="nav-link" href="{{ route('project') }}">Project</a>
-				  <a class="nav-link" href="{{ route('task') }}">Task</a>
-				  <a class="nav-link" href="{{ route('analytic') }}">Analytic</a>
 
-			</nav>
-        </div>
-    </div>
+    <div class="list-group">
+   
+    <a href="{{ route('events') }}" class="list-group-item"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+	<a class="list-group-item" data-toggle="collapse" href="#submenu-2">
+	    <span><i class="fa fa-briefcase"></i></span>
+	    <span class="sidebar-title">Project</span>
+	    <b class="caret"></b>
+	</a>
+	<div class="collapse list-group-submenu" id="submenu-2">
+	    <a href="{{ route('project') }}" class="list-group-item sub-item" data-parent="#submenu-2" style="padding-left: 50px;"><i class="fa fa-folder"></i>Document</a>
+	    <a href="#" class="list-group-item sub-item" data-parent="#submenu-2" style="padding-left: 50px;"><i class="fa fa-cubes"></i>3D Model</a>
+	</div>          	
+    <a href="{{ route('task') }}" class="list-group-item"><i class="fa fa-list"></i> <span>Task</span></a>
+    <a href="{{ route('analytic') }}" class="list-group-item"><i class="fa fa-bar-chart"></i> <span>Analytic</span></a>
+
+
+  </div>
 
     
 </body>

@@ -13,24 +13,32 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.2.7/fullcalendar.min.css"/>
 
+     <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    {{-- <link rel="styleeheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> --}}
+
+    <!-- Font Awesome -->
+    {{-- <link rel="stylesheet" href="{{ asset('font-awesome/css/font-awesome.min.css') }}"> --}}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <script>
    
         $(document).ready(function() {
             var calendar = $('#calendar').fullCalendar({
-      editable:true,
-      header:{
-       left:'prev,next today',
-       center:'title',
-       right:'month,agendaWeek,agendaDay'
-      },
-      events: 'load.php',
-      selectable:true,
-      selectHelper:true,
-      displayEventTime: false,
-      select: function(start, end, allDay)
-      {
-       var title = prompt("Enter Task");
-        }
+            editable:true,
+            header:{
+             left:'prev,next today',
+             center:'title',
+             right:'month,agendaWeek,agendaDay'
+            },
+            events: 'load.php',
+            selectable:true,
+            selectHelper:true,
+            displayEventTime: false,
+            select: function(start, end, allDay)
+            {
+             var title = prompt("Enter Task");
+              }
     </script>
 
 </head>
