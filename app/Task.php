@@ -10,14 +10,7 @@ class Task extends Model
 {
 	protected $fillable = ['name','status','due_date'];
 
-    public function create(Request $request){
-        //create new task
-        $tasks = new Task();
-        $tasks -> name =$request -> input('name');
-        $tasks -> status =$request -> input('status');
-        $tasks -> due_date =$request -> input('due_date');
-        $tasks->save();
-    }
+    protected $primaryKey = 'task_id';
 
     public function event(){
         return $this->hasMany(Event::class);

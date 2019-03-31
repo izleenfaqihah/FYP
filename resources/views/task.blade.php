@@ -74,7 +74,6 @@
 		                            	<td>
 		                            		<select name="status" id="task-status" onchange="this.className=this.options[this.selectedIndex].className"
     											class="important form-control" required="">
-		                            			<option class="form-control"></option>
 		                            			<option class="blue form-control">New</option>
 		                            			<option class="green form-control">Done</option>
 		                            			<option class="red form-control">Stuck</option>
@@ -91,18 +90,6 @@
 					                	</td>
 		                            </tbody>
 					            </table>
-
-					            <table class="table table-hover">
-		                            <!-- <thead>
-		                                <tr>
-		                                <th scope="col">Name</th>
-		                                <th scope="col">Status</th>
-		                                
-		                                </tr>
-		                            </thead> -->
-		                            
-		                        </table>
-
 					        </form>   
 				    	</div>
 				</div>
@@ -126,11 +113,16 @@
 		                            	@if( ! $tasks->isEmpty())
                                 		@foreach($tasks as $task)
                                 		<tr>
-                                			<td contenteditable="true">{{$task->name}}</td>
-                                			<td contenteditable="true">{{$task->status}}</td>
-                                			<td contenteditable="true">{{$task->due_date}}</td>
+                                			<td>{{$task->name}}</td>
+                                			<td>{{$task->status}}</td>
+                                			<td>{{$task->due_date}}</td>
                                 			<td>
-                                				<a href="{{ route('task.delete',['id' => $task->id]) }}">
+                                				<a href="{{ route('task.update',['task_id' => $task->task_id]) }}">
+                                					<button type="button" class="btn btn-info" data-toggle="modal" data-target="#edit-modal">
+							                        	<i class="glyphicon glyphicon-check"></i> 
+							                    	</button>
+                                				</a>
+                                				<a href="{{ route('task.delete',['task_id' => $task->task_id]) }}">
                                 					<button type="button" value="delete" name="submitbutton" class="btn btn-danger">
 							                        	<i class="fa fa-trash"></i> 
 							                    	</button>
@@ -148,67 +140,11 @@
 			</div>
 		</div>
 
-
-<!-- 
-    <div class="container">
-    	<div class="row justify-content-center">
-    		<div class="col-md-8">
-    			<div class="card">
-    				<div class="card-header"> Task Lists</div>
-                		<div class="card-body">
-						        <table class="table table-hover">
-		                            <thead>
-		                                <tr>
-		                                <th scope="col">Task</th>
-		                                <th scope="col">Status</th>
-		                                
-		                                </tr>
-		                            </thead>
-		                            <tbody>
-		                            	<td><input type="text" name="name[]" id="task-name" class="form-control"></td>
-		                            	<td><input type="text" name="status[]" id="task-status" class="form-control"></td>
-		                            	<td style="text-align: center"><a href="#" class="btn btn-danger remove">-</a></td>
-		                            </tbody>
-		                        </table>
-		                        <div class="form-group">
-							        <div class="col-sm-offset-3 col-sm-6">
-							            <button type="submit" class="btn btn-outline-success addTask">
-							                <i class="fa fa-plus"></i> Add Task
-							            </button>
-							        </div>
-							    </div>
-			            </div>
-			        </div>
-			    </div>
-			</div>
-		</div> -->
-
-		
-
 		<script type="text/javascript">
-
-			// $('.addTask').on('click',function(){
-			// 	addTask();
-			// });
-			// function addTask(){
-			// 	var tr = '<tr>'+
-			// 					'<td><input type="text" name="name[]" id="task-name" class="form-control"></td>'+
-		 //                        '<td><input type="text" name="status[]" id="task-status" class="form-control"></td>'+
-		 //                        '<td style="text-align: center"><a href="#" class="btn btn-danger remove">-</a></td>'+
-		 //                  '</tr>';
-		 //                  $('tbody').append(tr);      
-			// };
-
-			// $('tbody').on('click', '.remove', function() {
-			// 	$(this).parent().parent().remove();
-				
-			// });
-
 			$('.date').datepicker({
 		        autoclose: true,
 		        dateFormat: "yy-mm-dd"
 		    });
-
 		</script>
 
 

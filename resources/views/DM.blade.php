@@ -5,7 +5,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -63,7 +62,6 @@
 </head>
 
 <body>
-
     <div class="container">
         <div class="row justify-content-center">
 
@@ -72,7 +70,7 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <button class="btn" id="myBtn" style="font-size:18px;color:grey"><i class="glyphicon glyphicon-plus"></i> New Folder</button>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <button class="btn" style="font-size:18px;color:grey" data-toggle="modal" data-target="#myModal2"><i class="fa fa-upload"></i> Upload</button>
+                <button class="btn show-modal" style="font-size:18px;color:grey" type="submit"><i class="fa fa-upload"></i> Upload</button>
             <div class="col-md-10"><br>
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -89,27 +87,28 @@
                                 
                                 <th>Name</th>
                                 <th>Date Added</th>
-                                <th>Status</th>
                                 <th>Actions</th>
                             </tr>
                             {{ csrf_field() }}
                         </thead>
                         <tbody>
                             
-                            @foreach($folders as $folder)
+                            
                                 <tr>
-                                    <td><a href="{{ route('folderDetails',$folder->folder_id) }}">{{$folder->folder_name}}</a></td>
-                                    <td>{{$folder->created_at}}</td>
+                                    
+                                    <td></td>
                                     <td></td>
                                     <td>
-                                        
-                                        <button class="btn btn-info" data-toggle="modal" data-target="#edit-modal">
+                                        <button class="edit-modal btn btn-info">
                                         <span class="glyphicon glyphicon-edit"></span> Edit</button>
-                                        <button class="btn btn-danger" data-toggle="modal" data-target="#delete-modal">
-                                        <span class="glyphicon glyphicon-trash"></span> Delete</button>
+                                        <a href="#">
+                                            <button type="button" value="delete" name="submitbutton" class="btn btn-danger">
+                                                <span class="glyphicon glyphicon-trash"></span> Delete
+                                            </button>
+                                        </a>
                                     </td>
                                 </tr>
-                            @endforeach
+                            
                             
                         </tbody>
                     </table>
@@ -120,7 +119,7 @@
         </div>
     </div><!-- /.col-md-8 -->
 
-    <!-- new folder modal -->
+    <!-- The Modal -->
 <div id="myModal" class="modal">
 
   <!-- Modal content -->
@@ -128,7 +127,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 style="margin: 10">Enter Folder Name</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>                    
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    
                 </div>
                 <div class="modal-body">
                     <form action="{{ route('folder.submit') }}" method="POST" class="form-horizontal" role="form">
@@ -150,100 +150,7 @@
         </div>
 </div>
 
-
-
-<!-- Upload Modal -->
-  <div class="modal fade" id="myModal2" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 style="margin: 10">Upload File</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>                    
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal" role="form">
-                        <form method="post" id="upload_form" enctype='multipart/form-data'>
-                         
-                         <input type="file" name="upload_file" />
-                         <br />
-                         <input type="hidden" name="hidden_folder_name" id="hidden_folder_name" />
-                        </form>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-  </div>
-
-  <!-- Edit Modal -->
-  <div class="modal fade" id="edit-modal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 style="margin: 10">Edit</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>                
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('folder.update', ['folder_id' => $folder->folder_id]) }}" method="POST" class="form-horizontal" role="form">
-                        <div class="form-group">
-                            <label for="folder_name" class="col-md-2 col-form-label text-md-right">{{ __('Rename') }}</label>
-                            <div class="col-md-8">                               
-                                <input id="folder_name" type="text" value="{{ @$folder['folder_name'] }}"  class="form-control" name="folder_name">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="created_at" class="col-md-2 col-form-label text-md-right">{{ __('Date') }}</label>
-                            <div class="col-md-8">                               
-                                <input id="created_at" type="text" value="{{ @$folder['created_at'] }}"  class="form-control" name="created_at">
-                            </div>
-                        </div>
-                    </form>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-info">
-                        <span class="glyphicon glyphicon-edit"></span> Yes </button>
-                        <button type="button" class="btn btn-warning" data-dismiss="modal">
-                            <span class='glyphicon glyphicon-remove'></span> Cancel
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-  </div>
-
-  <!-- Delete Modal -->
-  <div class="modal fade" id="delete-modal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 style="margin: 10">Are you sure you want to delete?</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>      
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('folder.delete', ['folder_id' => $folder->folder_id]) }}" method="POST" class="form-horizontal" role="form">
-                        <button type="button" value="delete" name="submitbutton" class="btn btn-primary">
-                        <span class="glyphicon glyphicon-trash"></span> YES </button>
-                        <button type="button" class="btn btn-warning" data-dismiss="modal">
-                            <span class='glyphicon glyphicon-remove'></span> Cancel
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-  </div>
-
 <script>
-//new folder
 // Get the modal
 var modal = document.getElementById('myModal');
 
@@ -271,6 +178,46 @@ window.onclick = function(event) {
 }
 </script>
 
+    
+    <!-- Modal form to edit a form -->
+    <div id="editModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 style="margin: 10">Edit</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="id">ID</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="id_edit" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="title">Rename</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="title_edit" autofocus>
+                                <p class="errorTitle text-center alert alert-danger hidden"></p>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary edit" data-dismiss="modal">
+                            <span class='glyphicon glyphicon-check'></span> Edit
+                        </button>
+                        <button type="button" class="btn btn-warning" data-dismiss="modal">
+                            <span class='glyphicon glyphicon-remove'></span> Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
 
     <!-- jQuery -->
     {{-- <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script> --}}

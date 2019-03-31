@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTasksTable extends Migration
+class CreateFoldersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateTasksTable extends Migration
      */
     public function up()
     {
-        Schema::create('tasks', function (Blueprint $table) {
-            $table->increments('task_id');
-            $table->string('name');
-            $table->string('status');
-            $table->date('due_date');
+        Schema::create('folders', function (Blueprint $table) {
+            $table->increments('folder_id');
+            $table->string('folder_name');
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ class CreateTasksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tasks');
+        Schema::dropIfExists('folders');
     }
 }
