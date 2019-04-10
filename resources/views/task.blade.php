@@ -110,22 +110,19 @@
 						        
 						        <table class="table table-hover">
 		                            <tbody>
-		                            	@if( ! $tasks->isEmpty())
+		                            	@if(count($tasks))
                                 		@foreach($tasks as $task)
                                 		<tr>
                                 			<td>{{$task->name}}</td>
                                 			<td>{{$task->status}}</td>
                                 			<td>{{$task->due_date}}</td>
                                 			<td>
-                                				<a href="{{ route('task.update',['task_id' => $task->task_id]) }}">
-                                					<button type="button" class="btn btn-info" data-toggle="modal" data-target="#edit-modal">
-							                        	<i class="glyphicon glyphicon-check"></i> 
-							                    	</button>
-                                				</a>
-                                				<a href="{{ route('task.delete',['task_id' => $task->task_id]) }}">
-                                					<button type="button" value="delete" name="submitbutton" class="btn btn-danger">
-							                        	<i class="fa fa-trash"></i> 
-							                    	</button>
+                                				<button class="btn btn-info" data-toggle="modal" data-target="#edit-modal">
+                                        			<span class="glyphicon glyphicon-edit"></span> 
+                                        		</button>
+                                				
+                                				<a class="btn btn-danger" onclick="return myFunction();" href="{{ route('task.delete',['task_id' => $task->task_id]) }}">
+                                					<i class="fa fa-trash"></i>
                                 				</a>
                                 			</td>
                                 		</tr>
@@ -140,12 +137,82 @@
 			</div>
 		</div>
 
+		<!-- Edit Modal -->
+  <div class="modal fade" id="edit-modal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 style="margin: 10">Edit</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>                
+                </div>
+                <form action="{{ route('task.update',['task_id' => $task->task_id]) }}" method="post" class="form-horizontal" role="form">
+                        @csrf
+                        @method('PATCH')
+                <div class="modal-body">
+                    
+                        <div class="form-group">
+                            <label for="name" class="col-md-3 col-form-label text-md-right">{{ __('Rename') }}</label>
+                            <div class="col-md-8">                               
+                                <input id="name" type="text" value="{{ @$task['name'] }}"  class="form-control" name="name" readonly="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="status" class="col-md-3 col-form-label text-md-right">{{ __('Status') }}</label>
+                            <div class="col-md-8">                               
+                                <select name="status" id="task-status" onchange="this.className=this.options[this.selectedIndex].className" class="important form-control" required="">
+		                           	<option class="blue form-control">Waiting For Review</option>
+		                            <option class="green form-control">Done</option>
+		                            <option class="red form-control">Stuck</option>
+		                            <option class="yellow form-control">Working on it</option>		                            	
+		                        </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="due_date" class="col-md-3 col-form-label text-md-right">{{ __('Due Date') }}</label>
+                            <div class="col-md-8">                               
+                                <input id="due_date" type="text" value="{{ @$task['due_date'] }}"  class="form-control" name="due_date" readonly="">
+                            </div>
+                        </div>
+                    
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info">
+                        <span class="glyphicon glyphicon-edit"></span> Yes </button>
+                        <button type="button" class="btn btn-warning" data-dismiss="modal">
+                            <span class='glyphicon glyphicon-remove'></span> Cancel
+                        </button>
+                    </div>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+  </div>
+
 		<script type="text/javascript">
 			$('.date').datepicker({
 		        autoclose: true,
 		        dateFormat: "yy-mm-dd"
 		    });
+
+		    function myFunction() {
+			      if(!confirm("Are You Sure to delete this"))
+			      event.preventDefault();
+			  }
 		</script>
+
+		<!-- jQuery -->
+    {{-- <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script> --}}
+    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+
+    <!-- Bootstrap JavaScript -->
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.1/js/bootstrap.min.js"></script>
+
+    <!-- toastr notifications -->
+    {{-- <script type="text/javascript" src="{{ asset('toastr/toastr.min.js') }}"></script> --}}
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
 
 </body>

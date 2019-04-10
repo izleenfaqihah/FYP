@@ -97,6 +97,7 @@
                         <tbody>
                             
                             @foreach($folders as $folder)
+                            
                                 <tr>
                                     <td><a href="{{ route('folderDetails',$folder->folder_id) }}">{{$folder->folder_name}}</a></td>
                                     <td>{{$folder->created_at}}</td>
@@ -104,9 +105,11 @@
                                     <td>
                                         
                                         <button class="btn btn-info" data-toggle="modal" data-target="#edit-modal">
-                                        <span class="glyphicon glyphicon-edit"></span> Edit</button>
-                                        <button class="btn btn-danger" data-toggle="modal" data-target="#delete-modal">
-                                        <span class="glyphicon glyphicon-trash"></span> Delete</button>
+                                        <span class="glyphicon glyphicon-edit"></span> </button>
+                                
+                                        <a class="btn btn-danger" href="{{ route('folder.delete',['folder_id' => $folder->folder_id]) }}">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -189,8 +192,11 @@
                     <h4 style="margin: 10">Edit</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>                
                 </div>
+                <form action="#" method="post" class="form-horizontal" role="form">
+                        @csrf
+                        @method('PATCH')
                 <div class="modal-body">
-                    <form action="{{ route('folder.update', ['folder_id' => $folder->folder_id]) }}" method="POST" class="form-horizontal" role="form">
+                    
                         <div class="form-group">
                             <label for="folder_name" class="col-md-2 col-form-label text-md-right">{{ __('Rename') }}</label>
                             <div class="col-md-8">                               
@@ -203,7 +209,7 @@
                                 <input id="created_at" type="text" value="{{ @$folder['created_at'] }}"  class="form-control" name="created_at">
                             </div>
                         </div>
-                    </form>
+                    
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-info">
                         <span class="glyphicon glyphicon-edit"></span> Yes </button>
@@ -212,31 +218,7 @@
                         </button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-  </div>
-
-  <!-- Delete Modal -->
-  <div class="modal fade" id="delete-modal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 style="margin: 10">Are you sure you want to delete?</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>      
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('folder.delete', ['folder_id' => $folder->folder_id]) }}" method="POST" class="form-horizontal" role="form">
-                        <button type="button" value="delete" name="submitbutton" class="btn btn-primary">
-                        <span class="glyphicon glyphicon-trash"></span> YES </button>
-                        <button type="button" class="btn btn-warning" data-dismiss="modal">
-                            <span class='glyphicon glyphicon-remove'></span> Cancel
-                        </button>
-                    </form>
-                </div>
+            </form>
             </div>
         </div>
     </div>
@@ -269,6 +251,12 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
+
+// delete
+// function myFunction() {
+//     if(!confirm("Are You Sure to delete this"))
+//     event.preventDefault();
+// }
 </script>
 
 

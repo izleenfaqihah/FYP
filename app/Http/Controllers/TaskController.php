@@ -12,19 +12,10 @@ class TaskController extends Controller
 {
      public function getTask()
     {
-    		$tasks = Task::get();
-    		return view('task', ['tasks' => $tasks]);
+    		$tasks = Task::orderBy('task_id')->get();
+    		return view('task', compact('$tasks'));
 
     }
-
-    // public function create(Request $request){
-    //     //create new task
-    //     $tasks = new Task();
-    //     $tasks -> name =$request -> input('name');
-    //     $tasks -> status =$request -> input('status');
-    //     $tasks -> due_date =$request -> input('due_date');
-    //     $tasks->save();
-    // }
 
 
      public function store(Request $request)
@@ -81,8 +72,8 @@ class TaskController extends Controller
     
     public function edit($id)
     {
-      $tasks = Task::find($id);
-      return view('task.edit', compact('task'));
+      // $tasks = Task::find($id);
+      // return view('task.edit', compact('task'));
     }
 
      public function update(Request $request, $id)
@@ -98,7 +89,9 @@ class TaskController extends Controller
         $tasks->status = $request->get('status');
         $tasks->due_date = $request->get('due_date');
         $tasks->save();
-        return redirect('task')->with('Success');
+
+        // return redirect('task')->with('task','$tasks');
+        return redirect()->route('task', compact('$tasks'));
       
     }
     
@@ -109,10 +102,8 @@ class TaskController extends Controller
       $events->delete();
       $tasks->delete();
 
-      // DB::table("tasks")->where("id", $id)->delete();
-      // DB::table("events")->where("id", $id)->delete();
-
-      return redirect()->route('task');
+      // return redirect('task')->with('task','$tasks');
+      return redirect()->route('task', compact('$tasks'));
 
       
     }

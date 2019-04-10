@@ -15,8 +15,8 @@ class FolderController extends Controller
      */
     public function index()
     {
-        $folders = Folder::get();
-        return view('project', compact('folders'));
+        $folders = Folder::all();
+        return view('/project', compact('folders'));
         
     }
 
@@ -56,13 +56,13 @@ class FolderController extends Controller
                 'message' => 'Success!',
                ];
 
-           return redirect()->route('project')->with($msg);
+           return redirect()->route('project', compact('folders'))->with($msg);
             
         } else {
           $msg = [
                'error' => 'Some error!',
           ];
-          return redirect()->route('project')->with($msg);
+          return redirect()->route('project', compact('folders'))->with($msg);
             
         }
     }
@@ -87,8 +87,8 @@ class FolderController extends Controller
      */
     public function edit($id)
     {
-        $folders = Folder::find($id);
-        return view('project', compact('folder'));
+        // $folders = Folder::find($id);
+        // return  view('folderEdit')->with('folders',$folders);
     }
 
     /**
