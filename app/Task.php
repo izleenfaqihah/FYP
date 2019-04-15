@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class Task extends Model
 {
-	protected $fillable = ['name','status','due_date'];
+	protected $fillable = ['name','status', 'percentage', 'due_date'];
 
     protected $primaryKey = 'task_id';
 

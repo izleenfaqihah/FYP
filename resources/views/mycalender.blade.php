@@ -39,6 +39,8 @@
             {
              var title = prompt("Enter Task");
               }
+          })
+      })
     </script>
 
 </head>

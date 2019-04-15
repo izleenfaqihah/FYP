@@ -13,7 +13,7 @@ class TaskController extends Controller
      public function getTask()
     {
     		$tasks = Task::orderBy('task_id')->get();
-    		return view('task', compact('$tasks'));
+    		return view('task', compact('tasks'));
 
     }
 
@@ -30,6 +30,7 @@ class TaskController extends Controller
       $task_id = DB::table('tasks')->insertGetId(array(
         'name' => $request -> name,
         'status' => $request -> status,
+        'percentage' => '0',
         'due_date' => $request -> due_date
       ));
     	
@@ -72,8 +73,7 @@ class TaskController extends Controller
     
     public function edit($id)
     {
-      // $tasks = Task::find($id);
-      // return view('task.edit', compact('task'));
+      // 
     }
 
      public function update(Request $request, $id)
@@ -81,17 +81,17 @@ class TaskController extends Controller
         $this->validate($request,[
           'name' => 'required',
           'status' => 'required',
+          'percentage' => 'required',
           'due_date' => 'required',
         ]);
 
         $tasks = Task::find($id);
         $tasks->name = $request->get('name');
         $tasks->status = $request->get('status');
+        $tasks->percentage = $request->get('percentage');
         $tasks->due_date = $request->get('due_date');
         $tasks->save();
-
-        // return redirect('task')->with('task','$tasks');
-        return redirect()->route('task', compact('$tasks'));
+        return redirect('task')->with('Success');
       
     }
     
@@ -102,8 +102,7 @@ class TaskController extends Controller
       $events->delete();
       $tasks->delete();
 
-      // return redirect('task')->with('task','$tasks');
-      return redirect()->route('task', compact('$tasks'));
+      return redirect('task')->with('Success');
 
       
     }

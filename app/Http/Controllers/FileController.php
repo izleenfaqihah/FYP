@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Folder;
+use App\File;
 
-class FolderController extends Controller
+class FileController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +14,11 @@ class FolderController extends Controller
      */
     public function index()
     {
-        $folders = Folder::all();
-        return view('/project', compact('folders'));
-        
+        $file = File::orderBy('file_id')->get();
+        return view('DM')->with(
+        'file', // <-- This will be available in the view as $project
+        $file // <-- This will be contained in the $project variable in the view
+);
     }
 
     /**
@@ -38,28 +39,36 @@ class FolderController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-        'folder_name' => 'required|string|max:255',
+        $this->validate($request, [
+            'document' => 'file|nullable|max:1999'
         ]);
 
-        $folder_id = DB::table('folders')->insertGetId(array(
-        'folder_name' => $request -> folder_name
-      ));
+        // Handle File Upload
+        if ($request->hasFile('document')) {
+            // Get filename with the extension
+            $filenameWithExt = $request->file('document')->getClientOriginalName();
+            // Get just filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            // Get just ext
+            $extension = $request->file('document')->getClientOriginalExtension();
+            // Filename to store
+            $fileNameToStore = $filename.'_'.time().'.'.$extension;
+            // Upload File
+            $path = $request->file('document')->storeAs('public/files', $fileNameToStore);
 
-        if(true) {
-           $msg = [
-                'message' => 'Success!',
-               ];
+        } 
+            else{
+                $fileNameToStore = 'nofile.pdf';
+            }
 
-           return redirect()->route('project', compact('folders'))->with($msg);
-            
-        } else {
-          $msg = [
-               'error' => 'Some error!',
-          ];
-          return redirect()->route('project', compact('folders'))->with($msg);
-            
-        }
+        // Create File
+        $file = new File();
+        $file-> document = $fileNameToStore;
+        $file-> status = "-";
+        $file->save();
+
+        return redirect('/DM')->with('success', 'File Uploaded');
+
     }
 
     /**
@@ -70,8 +79,7 @@ class FolderController extends Controller
      */
     public function show($id)
     {
-        $folders = Folder::find($id);
-        return  view('folderDetails')->with('folders',$folders);
+        //
     }
 
     /**
@@ -94,16 +102,7 @@ class FolderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request,[
-          'folder_name' => 'required',
-          'created_at' => 'required',
-        ]);
-
-        $folders = Folder::find($id);
-        $folders->folder_name = $request->get('folder_name');
-        $folders->created_at = $request->get('created_at');
-        $folders->save();
-        return redirect('project')->with('Success');
+        //
     }
 
     /**
@@ -114,9 +113,6 @@ class FolderController extends Controller
      */
     public function destroy($id)
     {
-        $folders = Folder::find($id);
-        $folders -> delete();
-        return redirect()->route('project');
-
+        //
     }
 }

@@ -97,7 +97,7 @@
     	</div>
     </div>
 
-
+@foreach($tasks as $task)
 
     <div class="container">
     	<div class="row justify-content-center">
@@ -110,11 +110,20 @@
 						        
 						        <table class="table table-hover">
 		                            <tbody>
-		                            	@if(count($tasks))
-                                		@foreach($tasks as $task)
+		                            	<thead>
+                                        <tr>
+                                        <th scope="col">Task</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Percentage %</th>
+                                        <th scope="col">Due Date</th>
+                                        <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                		
                                 		<tr>
                                 			<td>{{$task->name}}</td>
                                 			<td>{{$task->status}}</td>
+                                            <td>{{$task->percentage}}</td>
                                 			<td>{{$task->due_date}}</td>
                                 			<td>
                                 				<button class="btn btn-info" data-toggle="modal" data-target="#edit-modal">
@@ -126,8 +135,8 @@
                                 				</a>
                                 			</td>
                                 		</tr>
-                                		@endforeach
-                                		@endif
+                                		
+                                		
 		                            </tbody>
 		                        </table>
 			                
@@ -163,11 +172,18 @@
                             <label for="status" class="col-md-3 col-form-label text-md-right">{{ __('Status') }}</label>
                             <div class="col-md-8">                               
                                 <select name="status" id="task-status" onchange="this.className=this.options[this.selectedIndex].className" class="important form-control" required="">
+                                    <option class="yellow form-control">Working on it</option>
 		                           	<option class="blue form-control">Waiting For Review</option>
+                                    <option class="red form-control">Stuck</option>
 		                            <option class="green form-control">Done</option>
-		                            <option class="red form-control">Stuck</option>
-		                            <option class="yellow form-control">Working on it</option>		                            	
+		                            		                            	
 		                        </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="percentage" class="col-md-3 col-form-label text-md-right">{{ __('Percentage') }}</label>
+                            <div class="col-md-8">                               
+                                <input id="percentage" type="text" value="{{ @$task['percentage'] }}"  class="form-control" name="percentage">
                             </div>
                         </div>
                         <div class="form-group">
@@ -190,7 +206,7 @@
         </div>
     </div>
   </div>
-
+@endforeach
 		<script type="text/javascript">
 			$('.date').datepicker({
 		        autoclose: true,

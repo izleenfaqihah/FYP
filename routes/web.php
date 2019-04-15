@@ -28,9 +28,12 @@ Route::get('/project', 'FolderController@index')->name('project');
 Route::get('/folderDetails/{id}', 'FolderController@show')->name('folderDetails');
 Route::post('/project/submit', 'FolderController@store')->name('folder.submit');
 // Folder edit
-// Route::get('/project/edit/{id}','FolderController@edit')->name('folder.edit');
 Route::get('/project/{id}', 'FolderController@destroy')->name('folder.delete');
 Route::patch('/project/update/{id}', 'FolderController@update')->name('folder.update');
+
+//UPLOAD
+Route::post('file', 'FileController@index')->name('file');
+Route::post('file', 'FileController@store')->name('file.submit');
 
 //TASK
 Route::get('/task', 'TaskController@getTask')->name('task');

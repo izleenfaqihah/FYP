@@ -25,40 +25,6 @@
     {{-- <link rel="stylesheet" href="{{ asset('font-awesome/css/font-awesome.min.css') }}"> --}}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-
-
-    <style>
-        .panel-heading {
-            padding: 0;
-        }
-        .panel-heading ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-        }
-        .panel-heading li {
-            float: left;
-            border-right:1px solid #bbb;
-            display: block;
-            padding: 14px 16px;
-            text-align: center;
-        }
-        .panel-heading li:last-child:hover {
-            background-color: #ccc;
-        }
-        .panel-heading li:last-child {
-            border-right: none;
-        }
-        .panel-heading li a:hover {
-            text-decoration: none;
-        }
-
-        .table.table-bordered tbody td {
-            vertical-align: baseline;
-        }
-    </style>
-
 </head>
 
 <body>
@@ -68,9 +34,7 @@
                 <input type="text"  placeholder="Search" name="search">
                 <button class="btn fa fa-search my-2 my-sm-0" style="font-size:24px;color:grey" type="submit"></button>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <button class="btn" id="myBtn" style="font-size:18px;color:grey"><i class="glyphicon glyphicon-plus"></i> New Folder</button>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <button class="btn show-modal" style="font-size:18px;color:grey" type="submit"><i class="fa fa-upload"></i> Upload</button>
+                <button class="btn" style="font-size:18px;color:grey" data-toggle="modal" data-target="#myModal2"><i class="fa fa-upload"></i> Upload</button>
             <div class="col-md-10"><br>
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -95,16 +59,16 @@
                             
                             
                                 <tr>
-                                    
                                     <td></td>
                                     <td></td>
+
                                     <td>
-                                        <button class="edit-modal btn btn-info">
-                                        <span class="glyphicon glyphicon-edit"></span> Edit</button>
-                                        <a href="#">
-                                            <button type="button" value="delete" name="submitbutton" class="btn btn-danger">
-                                                <span class="glyphicon glyphicon-trash"></span> Delete
-                                            </button>
+                                        
+                                        <button class="btn btn-info" data-toggle="modal" data-target="#edit-modal">
+                                        <span class="glyphicon glyphicon-edit"></span> </button>
+                                
+                                        <a class="btn btn-danger" onclick="return myFunction();" href="#">
+                                            <i class="fa fa-trash"></i>
                                         </a>
                                     </td>
                                 </tr>
@@ -119,105 +83,40 @@
         </div>
     </div><!-- /.col-md-8 -->
 
-    <!-- The Modal -->
-<div id="myModal" class="modal">
-
-  <!-- Modal content -->
-  <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 style="margin: 10">Enter Folder Name</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('folder.submit') }}" method="POST" class="form-horizontal" role="form">
-                        {{ csrf_field() }}
-                        <table class="table">
-                            <tbody>
-                                <td><input type="text" name="folder_name" id="folder-name" class="form-control" required=""></td> 
-                                        <!-- Add Task Button -->
-                                <td>
-                                    <button type="submit"  class="btn btn-success">
-                                        <span class='glyphicon glyphicon-check'></span> Add
-                                    </button>
-                                </td>
-                            </tbody>
-                        </table>
-                    </form>
-                </div>
-            </div>
-        </div>
-</div>
-
-<script>
-// Get the modal
-var modal = document.getElementById('myModal');
-
-// Get the button that opens the modal
-var btn = document.getElementById("myBtn");
-
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks the button, open the modal 
-btn.onclick = function() {
-  modal.style.display = "block";
-}
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  modal.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-}
-</script>
-
+   <!-- Upload Modal -->
+  <div class="modal fade" id="myModal2" role="dialog">
+    <div class="modal-dialog">
     
-    <!-- Modal form to edit a form -->
-    <div id="editModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 style="margin: 10">Edit</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    
+                    <h4 style="margin: 10">Upload File</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>                    
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal" role="form">
+                    <form action="{{ route('file.submit') }}" method="POST" enctype="multipart/form-data" class="form-horizontal" role="form">
+                        {{ csrf_field() }}
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="id">ID</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="id_edit" disabled>
-                            </div>
+                            <input id="document" type="file" class="form-control{{ $errors->has('document') ? ' is-invalid' : '' }}" name="document" value="{{ old('document') }}">
+                                @if ($errors->has('document'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('document') }}</strong>
+                                    </span>
+                                @endif
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="title">Rename</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="title_edit" autofocus>
-                                <p class="errorTitle text-center alert alert-danger hidden"></p>
-                            </div>
-                        </div>
+                        <button type="submit" class="btn btn-success" style="margin-top:10px">
+                        <span class="glyphicon glyphicon-upload"></span> Upload </button>
+                        <button type="button" class="btn btn-warning" style="margin-top:10px" data-dismiss="modal">
+                        <span class='glyphicon glyphicon-remove'></span> Cancel </button>
                     </form>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary edit" data-dismiss="modal">
-                            <span class='glyphicon glyphicon-check'></span> Edit
-                        </button>
-                        <button type="button" class="btn btn-warning" data-dismiss="modal">
-                            <span class='glyphicon glyphicon-remove'></span> Close
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
+  </div>
 
-    
+
 
     <!-- jQuery -->
     {{-- <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script> --}}

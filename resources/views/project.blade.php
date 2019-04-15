@@ -107,7 +107,7 @@
                                         <button class="btn btn-info" data-toggle="modal" data-target="#edit-modal">
                                         <span class="glyphicon glyphicon-edit"></span> </button>
                                 
-                                        <a class="btn btn-danger" href="{{ route('folder.delete',['folder_id' => $folder->folder_id]) }}">
+                                        <a class="btn btn-danger" onclick="return myFunction();" href="{{ route('folder.delete',['folder_id' => $folder->folder_id]) }}">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </td>
@@ -167,20 +167,27 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>                    
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal" role="form">
-                        <form method="post" id="upload_form" enctype='multipart/form-data'>
-                         
-                         <input type="file" name="upload_file" />
-                         <br />
-                         <input type="hidden" name="hidden_folder_name" id="hidden_folder_name" />
-                        </form>
+                    <form action="{{ route('file.submit') }}" method="POST" enctype="multipart/form-data" class="form-horizontal" role="form">
+                        {{ csrf_field() }}
+                        <div class="form-group">
+                            <input id="document" type="file" class="form-control{{ $errors->has('document') ? ' is-invalid' : '' }}" name="document" value="{{ old('document') }}">
+                                @if ($errors->has('document'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('document') }}</strong>
+                                    </span>
+                                @endif
+                        </div>
+                        <button type="submit" class="btn btn-success" style="margin-top:10px">
+                        <span class="glyphicon glyphicon-upload"></span> Upload </button>
+                        <button type="button" class="btn btn-warning" style="margin-top:10px" data-dismiss="modal">
+                        <span class='glyphicon glyphicon-remove'></span> Cancel </button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
   </div>
-
+@foreach($folders as $folder)
   <!-- Edit Modal -->
   <div class="modal fade" id="edit-modal" role="dialog">
     <div class="modal-dialog">
@@ -192,7 +199,7 @@
                     <h4 style="margin: 10">Edit</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>                
                 </div>
-                <form action="#" method="post" class="form-horizontal" role="form">
+                <form action="{{ route('folder.update',['folder_id' => $folder->folder_id]) }}" method="post" class="form-horizontal" role="form">
                         @csrf
                         @method('PATCH')
                 <div class="modal-body">
@@ -223,7 +230,7 @@
         </div>
     </div>
   </div>
-
+@endforeach
 <script>
 //new folder
 // Get the modal
@@ -253,10 +260,10 @@ window.onclick = function(event) {
 }
 
 // delete
-// function myFunction() {
-//     if(!confirm("Are You Sure to delete this"))
-//     event.preventDefault();
-// }
+function myFunction() {
+    if(!confirm("Are You Sure to delete this"))
+    event.preventDefault();
+}
 </script>
 
 
