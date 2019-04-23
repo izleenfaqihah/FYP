@@ -30,55 +30,43 @@
 <body>
     <div class="container">
         <div class="row justify-content-center">
-
                 <input type="text"  placeholder="Search" name="search">
                 <button class="btn fa fa-search my-2 my-sm-0" style="font-size:24px;color:grey" type="submit"></button>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <button class="btn" style="font-size:18px;color:grey" data-toggle="modal" data-target="#myModal2"><i class="fa fa-upload"></i> Upload</button>
             <div class="col-md-10"><br>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <ul>
-                        <li><i class="fa fa-file-text-o"></i> All the documents</li>
-                        <!-- <a href="#" class="add-modal"><li></li></a> -->
-                    </ul>
-                </div>
-        
             <div class="panel-body">
                     <table class="table table-striped table-bordered table-hover" id="postTable">
                         <thead>
-                            <tr>
-                                
+                            <tr>                                
                                 <th>Name</th>
                                 <th>Date Added</th>
                                 <th>Actions</th>
                             </tr>
                             {{ csrf_field() }}
                         </thead>
-                        <tbody>
-                            
-                            
+                        @foreach($three as $thr)  
+                        <tbody> 
+                                                     
                                 <tr>
-                                    <td></td>
-                                    <td></td>
+                                    <td><a href="<?php echo asset("storage/threeD/{$thr->three_name}")?>">{{ $thr->three_name }}</a></td>
+                                    <td>{{ $thr->created_at }}</td>
 
                                     <td>
                                         
                                         <button class="btn btn-info" data-toggle="modal" data-target="#edit-modal">
                                         <span class="glyphicon glyphicon-edit"></span> </button>
                                 
-                                        <a class="btn btn-danger" onclick="return myFunction();" href="#">
+                                        <a class="btn btn-danger" onclick="return myFunction();" href="{{ route('Three.delete',['three_id' => $thr->three_id]) }}">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </td>
-                                </tr>
-                            
-                            
+                                </tr> 
+                                                      
                         </tbody>
+                        @endforeach
                     </table>
             </div><!-- /.panel-body -->
-
-            </div><!-- /.panel panel-default -->
             </div>
         </div>
     </div><!-- /.col-md-8 -->
@@ -95,13 +83,13 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>                    
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('file.submit') }}" method="POST" enctype="multipart/form-data" class="form-horizontal" role="form">
+                    <form action="{{ route('Three.submit') }}" method="POST" enctype="multipart/form-data" class="form-horizontal" role="form">
                         {{ csrf_field() }}
                         <div class="form-group">
-                            <input id="document" type="file" class="form-control{{ $errors->has('document') ? ' is-invalid' : '' }}" name="document" value="{{ old('document') }}">
-                                @if ($errors->has('document'))
+                            <input id="three_name" type="file" class="form-control{{ $errors->has('three_name') ? ' is-invalid' : '' }}" name="three_name" value="{{ old('three_name') }}">
+                                @if ($errors->has('three_name'))
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('document') }}</strong>
+                                        <strong>{{ $errors->first('three_name') }}</strong>
                                     </span>
                                 @endif
                         </div>
@@ -115,6 +103,58 @@
         </div>
     </div>
   </div>
+
+ 
+  <!-- Edit Modal -->
+  <div class="modal fade" id="edit-modal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 style="margin: 10">Edit</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>                
+                </div>
+                <form action="#" method="post" class="form-horizontal" role="form">
+                        @csrf
+                        @method('PATCH')
+                <div class="modal-body">
+                    
+                        <div class="form-group">
+                            <label for="three_name" class="col-md-2 col-form-label text-md-right">{{ __('Rename') }}</label>
+                            <div class="col-md-8">                               
+                                <input id="three_name" type="text" value="{{ @$thr['three_name'] }}"  class="form-control" name="three_name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="created_at" class="col-md-2 col-form-label text-md-right">{{ __('Date') }}</label>
+                            <div class="col-md-8">                               
+                                <input id="created_at" type="text" value="{{ @$thr['created_at'] }}"  class="form-control" name="created_at">
+                            </div>
+                        </div>
+                    
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info">
+                        <span class="glyphicon glyphicon-edit"></span> Yes </button>
+                        <button type="button" class="btn btn-warning" data-dismiss="modal">
+                            <span class='glyphicon glyphicon-remove'></span> Cancel
+                        </button>
+                    </div>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <script>
+      // delete
+    function myFunction() {
+        if(!confirm("Are You Sure to delete this"))
+        event.preventDefault();
+    }
+  </script>
 
 
 

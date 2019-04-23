@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\File;
-use Storage;
-use Response;
+use App\Three;
 
-class FileController extends Controller
+class ThreeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +14,8 @@ class FileController extends Controller
      */
     public function index()
     {
-        //
+        $three = Three::all();
+        return view('DM',compact('three'));
     }
 
     /**
@@ -38,21 +37,21 @@ class FileController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'document' => 'file|nullable|max:1999'
+            'three_name' => 'file|nullable|max:1999'
         ]);
 
         // Handle File Upload
-        if ($request->hasFile('document')) {
+        if ($request->hasFile('three_name')) {
             // Get filename with the extension
-            $filenameWithExt = $request->file('document')->getClientOriginalName();
+            $filenameWithExt = $request->file('three_name')->getClientOriginalName();
             // Get just filename
             $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
             // Get just ext
-            $extension = $request->file('document')->getClientOriginalExtension();
+            $extension = $request->file('three_name')->getClientOriginalExtension();
             // Filename to store
             $fileNameToStore = $filename.'_'.time().'.'.$extension;
             // Upload File
-            $path = $request->file('document')->storeAs('public/files', $fileNameToStore);
+            $path = $request->file('three_name')->storeAs('public/threeD', $fileNameToStore);
 
         } 
             else{
@@ -60,16 +59,13 @@ class FileController extends Controller
             }
 
         // Create File
-        $file = new File();
-        $file-> document = $fileNameToStore;
-        $file-> status = "-";
-        $file-> description = "";
-        $file->save();
+        $three = new Three();
+        $three-> three_name = $fileNameToStore;
+        $three->save();
 
-        $file = File::latest()->first();
+        $three = Three::latest()->first();
 
-        return redirect('/project')->with('success', 'File Uploaded');
-
+        return redirect('/DM')->with('success', 'File Uploaded');
     }
 
     /**
@@ -80,9 +76,7 @@ class FileController extends Controller
      */
     public function show($id)
     {
-        
-        // $url = Storage::url('sx052gmbrpel_1555940435.jpeg');
-        // return "<img src='".$url."'/>";
+        //
     }
 
     /**
@@ -106,19 +100,15 @@ class FileController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request,[
-          'document' => 'required',
-          'status' => 'required',
-          'description' => 'required',
+          'three_name' => 'required',
           'created_at' => 'required',
         ]);
 
-        $file = File::find($id);
-        $file->document = $request->get('document');
-        $file->status = $request->get('status');
-        $file->description = $request->get('description');
-        $file->created_at = $request->get('created_at');
-        $file->save();
-        return redirect('project')->with('Success');
+        $three = Three::find($id);
+        $three->three_name = $request->get('three_name');
+        $three->created_at = $request->get('created_at');
+        $three->save();
+        return redirect('DM')->with('Success');
     }
 
     /**
@@ -129,8 +119,8 @@ class FileController extends Controller
      */
     public function destroy($id)
     {
-        $file = File::find($id);
-        $file -> delete();
-        return redirect()->route('project');
+        $three = Three::find($id);
+        $three -> delete();
+        return redirect()->route('DM');
     }
 }

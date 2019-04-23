@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Folder;
+use App\File;
 
 class FolderController extends Controller
 {
@@ -16,7 +17,8 @@ class FolderController extends Controller
     public function index()
     {
         $folders = Folder::all();
-        return view('/project', compact('folders'));
+        $file = File::all();
+        return view('/project', compact(['folders','file']));
         
     }
 
@@ -38,14 +40,16 @@ class FolderController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-        'folder_name' => 'required|string|max:255',
-        ]);
+        
+                $this->validate($request,[
+                    'folder_name' => 'required|string|max:255',
+                    ]);
 
-        $folder_id = DB::table('folders')->insertGetId(array(
-        'folder_name' => $request -> folder_name
-      ));
+                    $folder_id = DB::table('folders')->insertGetId(array(
+                    'folder_name' => $request -> folder_name
+                  ));
 
+        
         if(true) {
            $msg = [
                 'message' => 'Success!',

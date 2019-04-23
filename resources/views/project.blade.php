@@ -90,6 +90,7 @@
                                 <th>Name</th>
                                 <th>Date Added</th>
                                 <th>Status</th>
+                                <th>Description</th>
                                 <th>Actions</th>
                             </tr>
                             {{ csrf_field() }}
@@ -97,10 +98,10 @@
                         <tbody>
                             
                             @foreach($folders as $folder)
-                            
                                 <tr>
                                     <td><a href="{{ route('folderDetails',$folder->folder_id) }}">{{$folder->folder_name}}</a></td>
                                     <td>{{$folder->created_at}}</td>
+                                    <td></td>
                                     <td></td>
                                     <td>
                                         
@@ -108,6 +109,24 @@
                                         <span class="glyphicon glyphicon-edit"></span> </button>
                                 
                                         <a class="btn btn-danger" onclick="return myFunction();" href="{{ route('folder.delete',['folder_id' => $folder->folder_id]) }}">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
+
+                            @foreach($file as $fi)
+                                <tr>   
+                                    <td><a href="<?php echo asset("storage/files/{$fi->document}")?>">{{$fi->document}}</a></td>
+                                    <td>{{$fi->created_at}}</td>
+                                    <td align="center">{{$fi->status}}</td>
+                                    <td align="center">{{$fi->description}}</td>
+                                    <td>
+                                        
+                                        <button class="btn btn-info" data-toggle="modal" data-target="#edit-file">
+                                        <span class="glyphicon glyphicon-edit"></span> </button>
+                                
+                                        <a class="btn btn-danger" onclick="return myFunction();" href="{{ route('file.delete',['file_id' => $fi->file_id]) }}">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </td>
@@ -141,7 +160,7 @@
                                 <td><input type="text" name="folder_name" id="folder-name" class="form-control" required=""></td> 
                                         <!-- Add Task Button -->
                                 <td>
-                                    <button type="submit"  class="btn btn-success">
+                                    <button type="submit"  class="btn btn-success" name="submitbutton" value="folder">
                                         <span class='glyphicon glyphicon-check'></span> Add
                                     </button>
                                 </td>
@@ -177,7 +196,7 @@
                                     </span>
                                 @endif
                         </div>
-                        <button type="submit" class="btn btn-success" style="margin-top:10px">
+                        <button type="submit" class="btn btn-success" style="margin-top:10px" name="submitbutton" value="upload">
                         <span class="glyphicon glyphicon-upload"></span> Upload </button>
                         <button type="button" class="btn btn-warning" style="margin-top:10px" data-dismiss="modal">
                         <span class='glyphicon glyphicon-remove'></span> Cancel </button>
@@ -187,6 +206,7 @@
         </div>
     </div>
   </div>
+
 @foreach($folders as $folder)
   <!-- Edit Modal -->
   <div class="modal fade" id="edit-modal" role="dialog">
@@ -231,6 +251,67 @@
     </div>
   </div>
 @endforeach
+
+@foreach($file as $fi)
+  <!-- Edit File -->
+  <div class="modal fade" id="edit-file" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 style="margin: 10">Edit</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>                
+                </div>
+                <form action="{{ route('file.update',['file_id' => $fi->file_id]) }}" method="post" class="form-horizontal" role="form">
+                        @csrf
+                        @method('PATCH')
+                <div class="modal-body">
+                    
+                        <div class="form-group">
+                            <label for="document" class="col-md-2 col-form-label text-md-right">{{ __('Rename') }}</label>
+                            <div class="col-md-8">                               
+                                <input id="document" type="text" value="{{ @$fi['document'] }}"  class="form-control" name="document">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="status" class="col-md-2 col-form-label text-md-right">{{ __('Status') }}</label>
+                            <div class="col-md-8">                               
+                                <select name="status" id="task-status" class="important form-control" required="">
+                                    <option class="form-control">Approved</option>
+                                    <option class="form-control">Rejected</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="description" class="col-md-2 col-form-label text-md-right">{{ __('Description') }}</label>
+                            <div class="col-md-8">                               
+                                <input id="description" type="text" value="{{ @$fi['description'] }}"  class="form-control" name="description">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="created_at" class="col-md-2 col-form-label text-md-right">{{ __('Date') }}</label>
+                            <div class="col-md-8">                               
+                                <input id="created_at" type="text" value="{{ @$fi['created_at'] }}"  class="form-control" name="created_at">
+                            </div>
+                        </div>
+                    
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info">
+                        <span class="glyphicon glyphicon-edit"></span> Yes </button>
+                        <button type="button" class="btn btn-warning" data-dismiss="modal">
+                            <span class='glyphicon glyphicon-remove'></span> Cancel
+                        </button>
+                    </div>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+  </div>
+@endforeach
+
 <script>
 //new folder
 // Get the modal

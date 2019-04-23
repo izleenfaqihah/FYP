@@ -13,4 +13,10 @@ class File extends Model
     protected $table = 'files';
 
     protected $primaryKey = 'file_id';
+
+    public function folder(){
+
+        return $this->belongsTo('App\Folder');
+
+    }
 }

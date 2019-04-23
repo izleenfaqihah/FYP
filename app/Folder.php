@@ -12,9 +12,4 @@ class Folder extends Model
 
     protected $table = 'folders';
 
-    public function uploads()
-    {
-    	return $this->hasMany(Upload::class);
-    }
-
 }
