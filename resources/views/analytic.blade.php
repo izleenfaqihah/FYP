@@ -14,58 +14,20 @@
     {{-- <link rel="stylesheet" href="{{ asset('font-awesome/css/font-awesome.min.css') }}"> --}}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <script type="text/javascript"
-        src="https://public.tableau.com/javascripts/api/tableau-2.min.js"></script>
-    <script type="text/javascript">
-        var vizList = ["http://public.tableau.com/views/RegionalSampleWorkbook/Flights",
-            "http://public.tableau.com/views/RegionalSampleWorkbook/Obesity",
-            "http://public.tableau.com/views/RegionalSampleWorkbook/College",
-            "http://public.tableau.com/views/RegionalSampleWorkbook/Stocks",
-            "http://public.tableau.com/views/RegionalSampleWorkbook/Storms"];
-
-        var viz,
-            vizLen = vizList.length,
-            vizCount = 0;
-
-        function createViz(vizPlusMinus) {
-            var vizDiv = document.getElementById("vizContainer"),
-                options = {
-                    hideTabs: true
-                };
-
-            vizCount = vizCount + vizPlusMinus;
-
-            if (vizCount >= vizLen) {
-            // Keep the vizCount in the bounds of the array index.
-                vizCount = 0;
-            } else if (vizCount < 0) {
-                vizCount = vizLen - 1;
-            }
-
-            if (viz) { // If a viz object exists, delete it.
-                viz.dispose();
-            }
-
-            var vizURL = vizList[vizCount];
-            viz = new tableau.Viz(vizDiv, vizURL, options);
-        }
-    </script>
+    
 </head>
-<body onload="createViz(0);">
+<body>
 
-	<div class="container">
-    	<div class="row justify-content-center">
-    		<div class="col-md-8">
-    			<div id="vizContainer" style="width:800px; height:700px;"></div>
-			    <div id="controls" style="padding:20px;">
-			        <button style="width:100px;" onclick="javascript:createViz(-1);">Previous</button>
-			        <button style="width:100px;" onclick="javascript:createViz(1);">Next</button>
-			    </div>
-    		</div>
-    	</div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-9">
+    
+
+	       <script type='text/javascript' src='https://us-east-1.online.tableau.com/javascripts/api/viz_v1.js'></script><div class='tableauPlaceholder' style='width: 1000px; height: 827px;'><object class='tableauViz' width='1000' height='827' style='display:none;'><param name='host_url' value='https%3A%2F%2Fus-east-1.online.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='&#47;t&#47;projekpengurusanarkitek' /><param name='name' value='Book2&#47;Dashboard1' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='showAppBanner' value='false' /><param name='filter' value='iframeSizedToWindow=true' /></object></div>
+           
+            </div>
+        </div>
     </div>
-
-	
 
 </body>
 </html>

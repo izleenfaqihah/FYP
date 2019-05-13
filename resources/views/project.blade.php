@@ -58,6 +58,9 @@
         .table.table-bordered tbody td {
             vertical-align: baseline;
         }
+        .container {
+        margin-left: 16%;
+    }
     </style>
 
 </head>
@@ -89,8 +92,6 @@
                                 
                                 <th>Name</th>
                                 <th>Date Added</th>
-                                <th>Status</th>
-                                <th>Description</th>
                                 <th>Actions</th>
                             </tr>
                             {{ csrf_field() }}
@@ -101,8 +102,6 @@
                                 <tr>
                                     <td><a href="{{ route('folderDetails',$folder->folder_id) }}">{{$folder->folder_name}}</a></td>
                                     <td>{{$folder->created_at}}</td>
-                                    <td></td>
-                                    <td></td>
                                     <td>
                                         
                                         <button class="btn btn-info" data-toggle="modal" data-target="#edit-modal">
@@ -119,8 +118,6 @@
                                 <tr>   
                                     <td><a href="<?php echo asset("storage/files/{$fi->document}")?>">{{$fi->document}}</a></td>
                                     <td>{{$fi->created_at}}</td>
-                                    <td align="center">{{$fi->status}}</td>
-                                    <td align="center">{{$fi->description}}</td>
                                     <td>
                                         
                                         <button class="btn btn-info" data-toggle="modal" data-target="#edit-file">
@@ -273,21 +270,6 @@
                             <label for="document" class="col-md-2 col-form-label text-md-right">{{ __('Rename') }}</label>
                             <div class="col-md-8">                               
                                 <input id="document" type="text" value="{{ @$fi['document'] }}"  class="form-control" name="document">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="status" class="col-md-2 col-form-label text-md-right">{{ __('Status') }}</label>
-                            <div class="col-md-8">                               
-                                <select name="status" id="task-status" class="important form-control" required="">
-                                    <option class="form-control">Approved</option>
-                                    <option class="form-control">Rejected</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="description" class="col-md-2 col-form-label text-md-right">{{ __('Description') }}</label>
-                            <div class="col-md-8">                               
-                                <input id="description" type="text" value="{{ @$fi['description'] }}"  class="form-control" name="description">
                             </div>
                         </div>
                         <div class="form-group">

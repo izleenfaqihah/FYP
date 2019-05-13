@@ -45,15 +45,18 @@
 
 </head>
 
+<style type="text/css">
+    .card {
+        margin-right: 40px;
+    }
+</style>
+
 <body>
 
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-9">
-
-            <a class="weatherwidget-io" href="https://forecast7.com/en/2d92101d78/bangi/" data-label_1="BANGI" data-label_2="WEATHER" data-theme="weather_one" >BANGI WEATHER</a> <br><br><br>
-
-            <div class="card">
+            <div class="card col-md-9">
                 <div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
@@ -67,10 +70,13 @@
                 
                 </div>
             </div>
+            <a class="weatherwidget-io" href="https://forecast7.com/en/2d92101d78/bangi/" data-label_1="BANGI" data-label_2="WEATHER" data-theme="weather_one" >BANGI WEATHER</a> <br><br><br>
+
+            
         </div>
     </div>
 </div>
-            
+
             <script>
             !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
             </script>

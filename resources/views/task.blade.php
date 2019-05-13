@@ -30,80 +30,37 @@
 
 
 </head>
+
 <style type="text/css">
-	.green {
-		background-color: #39FF14;
-	}
-	.red {
-		background-color: red;
-	}
-	.yellow {
-		background-color: yellow;
-	}
-	.blue {
-		background-color: #8cbed6;
-	}
+    .container {
+        margin-left: 18%;
+    }
+    .modal-content {
+        width: 860px;
+        margin-right: 27%;
+    }
+    .modal-dialog {
+        margin-left: 18%;
+    }
 </style>
 <body>
 
     <div class="container">
-    	<div class="row justify-content-center">
-    		<div class="col-md-8">
-    			<div class="card">
-                	<div class="card-header">New Task</div>
-                		<div class="card-body">
-					        <!-- Display Validation Errors -->
-					        
-
-					        <!-- New Task Form -->
-					        <form action="{{ route('task.submit') }}" method="POST" class="form-horizontal">
-					            {{ csrf_field() }}
-
-					            <!-- Task Name -->
-					            <table class="table">
-		                            <thead>
-		                                <tr>
-		                                <th scope="col">Task</th>
-		                                <th scope="col">Status</th>
-		                                <th scope="col">Due Date</th>
-		                                <th scope="col"></th>
-		                                </tr>
-		                            </thead>
-		                            <tbody>
-		                            	<td><input type="text" name="name" id="task-name" class="form-control" required=""></td>
-		                            	<td>
-		                            		<select name="status" id="task-status" onchange="this.className=this.options[this.selectedIndex].className"
-    											class="important form-control" required="">
-		                            			<option class="blue form-control">New</option>
-		                            			<option class="green form-control">Done</option>
-		                            			<option class="red form-control">Stuck</option>
-		                            			<option class="yellow form-control">Working on it</option>
-		                            			
-		                            		</select>
-		                            	</td>
-		                            	<td><input type="text" name="due_date" id="task-date" class="date form-control" autocomplete="off" required=""></td>
-		                            	<!-- Add Task Button -->
-		                            	<td>
-		                            		<button type="submit" value="add" name="submitbutton" class="btn btn-success">
-					                        <i class="fa fa-plus"></i> 
-					                    	</button>
-					                	</td>
-		                            </tbody>
-					            </table>
-					        </form>   
-				    	</div>
-				</div>
-		    </div>
-    	</div>
+        <div class="row justify-content-center">
+            <input type="text"  placeholder="Search" name="search">
+            <button class="btn fa fa-search my-2 my-sm-0" style="font-size:24px;color:grey" type="submit"></button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="btn" style="font-size:18px;color:grey" data-toggle="modal" data-target="#myTask"><i class="glyphicon glyphicon-plus"></i> New Task</button>
+        </div>   
     </div>
 
-@foreach($tasks as $task)
+<br><br>
 
     <div class="container">
-    	<div class="row justify-content-center">
-    		<div class="col-md-8">
+    	<div class="row">
+    		<div class="col-md-12">
     			<div class="card">
-
+                    <div class="card-header" align="center">All The Tasks</div>
                 		<div class="card-body">
                 			
 						            {{csrf_field()}}
@@ -112,18 +69,37 @@
 		                            <tbody>
 		                            	<thead>
                                         <tr>
+                                        <th scope="col">Project Title</th>
                                         <th scope="col">Task</th>
                                         <th scope="col">Status</th>
-                                        <th scope="col">Percentage %</th>
-                                        <th scope="col">Due Date</th>
+                                        <th scope="col">Progress %</th>
+                                        <th scope="col">Priority</th>
+                                        <th scope="col">Start Date</th>
+                                        <th scope="col">End Date</th>
                                         <th scope="col">Action</th>
                                         </tr>
                                     </thead>
-                                		
+                                		@foreach($tasks as $task)
                                 		<tr>
+                                            <td>{{$task->project_name}}</td>
                                 			<td>{{$task->name}}</td>
-                                			<td>{{$task->status}}</td>
+                                			
+                                            <td>
+                                            @if ($task->status === 'Completed')
+                                                <span class="btn btn-success">Completed</span>
+                                            @elseif ($task->status === 'Stuck')
+                                                <span class="btn btn-danger">Stuck</span>
+                                            @elseif ($task->status === 'Waiting For Review')
+                                                <span class="btn btn-info">Waiting For Review</span>
+                                            @elseif ($task->status === 'New')
+                                                <span class="btn btn-primary">New</span>
+                                            @else
+                                                <span class="btn btn-warning">In Progress</span>
+                                            @endif
+                                            </td>
                                             <td>{{$task->percentage}}</td>
+                                            <td>{{$task->priority}}</td>
+                                            <td>{{$task->start_date}}</td>
                                 			<td>{{$task->due_date}}</td>
                                 			<td>
                                 				<button class="btn btn-info" data-toggle="modal" data-target="#edit-modal">
@@ -135,17 +111,70 @@
                                 				</a>
                                 			</td>
                                 		</tr>
-                                		
-                                		
+                                		@endforeach
 		                            </tbody>
 		                        </table>
-			                
+			                 {{ $tasks->links() }}
 			            </div>
 			        </div>
 			    </div>
 			</div>
 		</div>
 
+        <!-- Task Modal -->
+  <div class="modal fade" id="myTask" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 style="margin: 10">New Task</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>                    
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('task.submit') }}" method="POST" enctype="multipart/form-data" class="form-horizontal" role="form">
+                        {{ csrf_field() }}
+                        <table class="table">
+                                    <thead>
+                                        <tr>
+                                        <th scope="col">Project Title</th>    
+                                        <th scope="col">Task</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Start Date</th>
+                                        <th scope="col">End Date</th>
+                                        <th scope="col"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <td><input type="text" name="project_name" id="project_name-name" class="form-control" required=""></td>
+                                        <td><input type="text" name="name" id="task-name" class="form-control" required=""></td>
+                                        <td>
+                                            <select name="status" id="task-status" class="important form-control" required="">
+                                                <option class="form-control">New</option>
+                                                <option class="form-control">In Progress</option>
+                                                <option class="form-control">Stuck</option>
+                                                <option class="form-control">Completed</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="text" name="start_date" id="start-date" class="date form-control" autocomplete="off" required=""></td>
+                                        <td><input type="text" name="due_date" id="task-date" class="date form-control" autocomplete="off" required=""></td>
+                                        <!-- Add Task Button -->
+                                        <td>
+                                            <button type="submit" value="add" name="submitbutton" class="btn btn-success">
+                                            <i class="fa fa-plus"></i> 
+                                            </button>
+                                        </td>
+                                    </tbody>
+                                </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+@foreach($tasks as $task)
 		<!-- Edit Modal -->
   <div class="modal fade" id="edit-modal" role="dialog">
     <div class="modal-dialog">
@@ -161,35 +190,57 @@
                         @csrf
                         @method('PATCH')
                 <div class="modal-body">
-                    
+
                         <div class="form-group">
-                            <label for="name" class="col-md-3 col-form-label text-md-right">{{ __('Rename') }}</label>
+                            <label for="project_name" class="col-md-2 col-form-label text-md-right">{{ __('Project Title') }}</label>
                             <div class="col-md-8">                               
-                                <input id="name" type="text" value="{{ @$task['name'] }}"  class="form-control" name="name" readonly="">
+                                <input id="project_name" type="text" value="{{ @$task['project_name'] }}"  class="form-control" name="project_name">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="status" class="col-md-3 col-form-label text-md-right">{{ __('Status') }}</label>
+                            <label for="name" class="col-md-2 col-form-label text-md-right">{{ __('Task') }}</label>
+                            <div class="col-md-8">                               
+                                <input id="name" type="text" value="{{ @$task['name'] }}"  class="form-control" name="name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="status" class="col-md-2 col-form-label text-md-right">{{ __('Status') }}</label>
                             <div class="col-md-8">                               
                                 <select name="status" id="task-status" onchange="this.className=this.options[this.selectedIndex].className" class="important form-control" required="">
-                                    <option class="yellow form-control">Working on it</option>
-		                           	<option class="blue form-control">Waiting For Review</option>
-                                    <option class="red form-control">Stuck</option>
-		                            <option class="green form-control">Done</option>
+                                    <option class="form-control">In Progress</option>
+		                           	<option class="form-control">Waiting For Review</option>
+                                    <option class="form-control">Stuck</option>
+		                            <option class="form-control">Completed</option>
 		                            		                            	
 		                        </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="percentage" class="col-md-3 col-form-label text-md-right">{{ __('Percentage') }}</label>
+                            <label for="percentage" class="col-md-2 col-form-label text-md-right">{{ __('Progress') }}</label>
                             <div class="col-md-8">                               
                                 <input id="percentage" type="text" value="{{ @$task['percentage'] }}"  class="form-control" name="percentage">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="due_date" class="col-md-3 col-form-label text-md-right">{{ __('Due Date') }}</label>
+                            <label for="priority" class="col-md-2 col-form-label text-md-right">{{ __('Priority') }}</label>
                             <div class="col-md-8">                               
-                                <input id="due_date" type="text" value="{{ @$task['due_date'] }}"  class="form-control" name="due_date" readonly="">
+                                <select name="priority" id="priority" class="important form-control" required="">
+                                    <option class="form-control">High</option>
+                                    <option class="form-control">Medium</option>
+                                    <option class="form-control">Low</option>                                  
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="start_date" class="col-md-2 col-form-label text-md-right">{{ __('Start Date') }}</label>
+                            <div class="col-md-8">                               
+                                <input id="start_date" type="text" value="{{ @$task['start_date'] }}"  class="form-control" name="start_date">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="due_date" class="col-md-2 col-form-label text-md-right">{{ __('End Date') }}</label>
+                            <div class="col-md-8">                               
+                                <input id="due_date" type="text" value="{{ @$task['due_date'] }}"  class="form-control" name="due_date">
                             </div>
                         </div>
                     

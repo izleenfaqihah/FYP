@@ -62,8 +62,6 @@ class FileController extends Controller
         // Create File
         $file = new File();
         $file-> document = $fileNameToStore;
-        $file-> status = "-";
-        $file-> description = "";
         $file->save();
 
         $file = File::latest()->first();
@@ -107,15 +105,11 @@ class FileController extends Controller
     {
         $this->validate($request,[
           'document' => 'required',
-          'status' => 'required',
-          'description' => 'required',
           'created_at' => 'required',
         ]);
 
         $file = File::find($id);
         $file->document = $request->get('document');
-        $file->status = $request->get('status');
-        $file->description = $request->get('description');
         $file->created_at = $request->get('created_at');
         $file->save();
         return redirect('project')->with('Success');

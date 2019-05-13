@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Three;
 
 class ThreeController extends Controller
@@ -26,6 +27,13 @@ class ThreeController extends Controller
     public function create()
     {
         //
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->get('search');
+        $three = DB::table('threes')->where('three_name', 'like', '%'.$search.'%')->paginate(5);
+        return view('DM',compact('three'));
     }
 
     /**

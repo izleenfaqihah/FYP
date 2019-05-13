@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFilesTable extends Migration
+class CreateApprovalsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class CreateFilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('files', function (Blueprint $table) {
-            $table->increments('file_id');
-            $table->string('document');
+        Schema::create('approvals', function (Blueprint $table) {
+            $table->increments('approval_id');
+            $table->string('proposal_name');
+            $table->string('status');
+            $table->string('description');
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ class CreateFilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('files');
+        Schema::dropIfExists('approvals');
     }
 }

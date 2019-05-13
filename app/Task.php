@@ -8,9 +8,11 @@ use Illuminate\Http\Request;
 
 class Task extends Model
 {
-	protected $fillable = ['name','status', 'percentage', 'due_date'];
+	protected $fillable = ['project_name','name','status', 'percentage', 'priority', 'start_date', 'due_date'];
 
     protected $primaryKey = 'task_id';
+
+    public $timestamps = true;
 
     public function event(){
         return $this->hasMany(Event::class);

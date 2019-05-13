@@ -12,7 +12,7 @@ class TaskController extends Controller
 {
      public function getTask()
     {
-    		$tasks = Task::orderBy('task_id')->get();
+    		$tasks = Task::paginate(3);
     		return view('task', compact('tasks'));
 
     }
@@ -22,15 +22,20 @@ class TaskController extends Controller
     {
 
       $this->validate($request,[
+        'project_name' => 'required|string|max:255',
         'name' => 'required|string|max:255',
         'status' => 'required|string|max:255',
+        'start_date' => 'required|date|max:255',
         'due_date' => 'required|date|max:255',
         ]);
 
       $task_id = DB::table('tasks')->insertGetId(array(
+        'project_name' => $request -> project_name,
         'name' => $request -> name,
         'status' => $request -> status,
         'percentage' => '0',
+        'priority' => "",
+        'start_date' => $request -> start_date,
         'due_date' => $request -> due_date
       ));
     	
@@ -79,16 +84,22 @@ class TaskController extends Controller
      public function update(Request $request, $id)
     {
         $this->validate($request,[
+          'project_name' => 'required',
           'name' => 'required',
           'status' => 'required',
           'percentage' => 'required',
+          'priority' => 'required',
+          'start_date' => 'required',
           'due_date' => 'required',
         ]);
 
         $tasks = Task::find($id);
+        $tasks->project_name = $request->get('project_name');
         $tasks->name = $request->get('name');
         $tasks->status = $request->get('status');
         $tasks->percentage = $request->get('percentage');
+        $tasks->priority = $request->get('priority');
+        $tasks->start_date = $request->get('start_date');
         $tasks->due_date = $request->get('due_date');
         $tasks->save();
         return redirect('task')->with('Success');

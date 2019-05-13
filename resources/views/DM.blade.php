@@ -27,11 +27,28 @@
 
 </head>
 
+<style type="text/css">
+    .container {
+        margin-left: 16%;
+    }
+</style>
+ 
 <body>
     <div class="container">
         <div class="row justify-content-center">
-                <input type="text"  placeholder="Search" name="search">
-                <button class="btn fa fa-search my-2 my-sm-0" style="font-size:24px;color:grey" type="submit"></button>
+                <!-- <input type="text"  placeholder="Search" name="search">
+                <button class="btn fa fa-search my-2 my-sm-0" style="font-size:24px;color:grey" type="submit"></button> -->
+                <form action="/search" method="get" role="search">
+                    {{ csrf_field() }}
+                    <div class="input-group">
+                        <input type="search" class="form-control" name="search" placeholder="Search"> 
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-default">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                    </div>
+                </form>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <button class="btn" style="font-size:18px;color:grey" data-toggle="modal" data-target="#myModal2"><i class="fa fa-upload"></i> Upload</button>
             <div class="col-md-10"><br>

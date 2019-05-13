@@ -40,6 +40,48 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="employee_number" class="col-md-4 col-form-label text-md-right">{{ __('Employee Number') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="employee_number" type="employee_number" class="form-control{{ $errors->has('employee_number') ? ' is-invalid' : '' }}" name="employee_number" value="{{ old('employee_number') }}" required>
+
+                                @if ($errors->has('employee_number'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('employee_number') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="employee_phone" class="col-md-4 col-form-label text-md-right">{{ __('Employee Phone') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="employee_phone" type="employee_phone" class="form-control{{ $errors->has('employee_phone') ? ' is-invalid' : '' }}" name="employee_phone" value="{{ old('employee_phone') }}" required>
+
+                                @if ($errors->has('employee_phone'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('employee_phone') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="employee_address" class="col-md-4 col-form-label text-md-right">{{ __('Employee Address') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="employee_address" type="employee_address" class="form-control{{ $errors->has('employee_address') ? ' is-invalid' : '' }}" name="employee_address" value="{{ old('employee_address') }}" required>
+
+                                @if ($errors->has('employee_address'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('employee_address') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                             <div class="col-md-6">
@@ -63,7 +105,7 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary" value="add" name="register">
                                     {{ __('Register') }}
                                 </button>
                             </div>
