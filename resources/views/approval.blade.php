@@ -38,11 +38,14 @@
 </style>
 
 <body>
-
     <div class="container">
         <div class="row justify-content-center">
-            <input type="text"  placeholder="Search" name="search">
-            <button class="btn fa fa-search my-2 my-sm-0" style="font-size:24px;color:grey" type="submit"></button>
+            <form action="{{route('approval.search')}}" method="get">
+                {{csrf_field()}}
+                <input type="text" placeholder="Search" name="search">
+                <button class="btn fa fa-search my-2 my-sm-0" style="font-size:24px;color:grey" type="submit"></button>
+            </form>
+            
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button class="btn" style="font-size:18px;color:grey" data-toggle="modal" data-target="#myApproval"><i class="glyphicon glyphicon-plus"></i> New Approval</button>
         </div>   
@@ -151,7 +154,6 @@
         <!-- Edit Modal -->
   <div class="modal fade" id="edit-modal" role="dialog">
     <div class="modal-dialog">
-    
       <!-- Modal content-->
       <div class="modal-dialog">
             <div class="modal-content">
@@ -163,11 +165,10 @@
                         @csrf
                         @method('PATCH')
                 <div class="modal-body">
-
                         <div class="form-group">
                             <label for="proposal_name" class="col-md-2 col-form-label text-md-right">{{ __('Proposal Name') }}</label>
                             <div class="col-md-8">                               
-                                <input id="proposal_name" type="text" value="{{ @$approval['proposal_name'] }}"  class="form-control" name="proposal_name">
+                                <input id="proposal_name" type="text" value="{{ $approval->proposal_name }}"  class="form-control" name="proposal_name">
                             </div>
                         </div>
                         <div class="form-group">
@@ -182,7 +183,7 @@
                         <div class="form-group">
                             <label for="description" class="col-md-2 col-form-label text-md-right">{{ __('Description') }}</label>
                             <div class="col-md-8">                               
-                                <input id="description" type="text" value="{{ @$approval['description'] }}"  class="form-control" name="description">
+                                <input id="description" type="text" value="{{ $approval->description }}"  class="form-control" name="description">
                             </div>
                         </div>
                     <div class="modal-footer">
@@ -198,7 +199,8 @@
         </div>
     </div>
   </div>
-@endforeach
+  @endforeach
+
 
 		<script type="text/javascript">
 		    function myFunction() {

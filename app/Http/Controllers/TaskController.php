@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Task;
 use App\Event;
+use App\User;
+use Auth;
 use Illuminate\Support\Facades\DB;
 use Calendar;
 
@@ -12,9 +14,22 @@ class TaskController extends Controller
 {
      public function getTask()
     {
-    		$tasks = Task::paginate(3);
-    		return view('task', compact('tasks'));
+    		// $tasks = Task::paginate(3);
+    		// return view('task', compact('tasks'));
 
+      $user_id = auth()->user()->user_id;
+      $user = User::find($user_id);
+      return view('task')->with('tasks',$user->tasks);
+
+    }
+
+    public function search (Request $request)
+    {
+        $search = $request -> get('search');
+        $tasks = DB::table('tasks')
+        -> where ('name', 'like', '%' .$search.'%')
+        -> orWhere ('project_name', 'like', '%' .$search.'%')->paginate(5);
+        return view('task', compact('tasks'));
     }
 
 
@@ -22,6 +37,7 @@ class TaskController extends Controller
     {
 
       $this->validate($request,[
+        'user_id' => 'required|string|max:255',
         'project_name' => 'required|string|max:255',
         'name' => 'required|string|max:255',
         'status' => 'required|string|max:255',
@@ -30,6 +46,7 @@ class TaskController extends Controller
         ]);
 
       $task_id = DB::table('tasks')->insertGetId(array(
+        'user_id' => $request -> user_id,
         'project_name' => $request -> project_name,
         'name' => $request -> name,
         'status' => $request -> status,

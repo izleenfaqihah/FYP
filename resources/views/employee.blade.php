@@ -47,8 +47,11 @@
 
     <div class="container">
         <div class="row justify-content-center">
-            <input type="text"  placeholder="Search" name="search">
-            <button class="btn fa fa-search my-2 my-sm-0" style="font-size:24px;color:grey" type="submit"></button>
+            <form action="{{route('employee.search')}}" method="get">
+                {{csrf_field()}}
+                <input type="text" placeholder="Search" name="search">
+                <button class="btn fa fa-search my-2 my-sm-0" style="font-size:24px;color:grey" type="submit"></button>
+            </form>
         </div>   
     </div>
 
@@ -71,21 +74,19 @@
                                         <th scope="col">Email</th>
                                         <th scope="col">Phone Number</th>
                                         <th scope="col">Address</th>
-                                        <th scope="col">Role</th>
                                         </tr>
                                     </thead>
-                                		@foreach($users as $user)
+                                		@foreach($employees as $employee)
                                 		<tr>
-                                            <td>{{$user->name}}</td>
-                                			<td>{{$user->email}}</td>
-                                            <td>{{$user->employee_phone}}</td>
-                                            <td>{{$user->employee_address}}</td>
-                                            <td>{{$user->role}}</td>
+                                            <td>{{$employee->employee_name}}</td>
+                                			<td>{{$employee->employee_email}}</td>
+                                            <td>{{$employee->employee_phone}}</td>
+                                            <td>{{$employee->employee_address}}</td>
                                 		</tr>
                                 		@endforeach
 		                            </tbody>
 		                        </table>
-			                 {{ $users->links() }}
+			                 {{ $employees->links() }}
 			            </div>
 			        </div>
 			    </div>

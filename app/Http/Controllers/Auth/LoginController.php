@@ -27,14 +27,7 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = '/events';
-    // protected function redirectTo(){
-    //     if (Auth::check() && Auth::user()->role == 'employee') {
-    //         return redirect('/events');
-    //     }
-    //     else{
-    //         return redirect('/admin');
-    //     }
-    // }
+    // 
 
     /**
      * Create a new controller instance.

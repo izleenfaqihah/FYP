@@ -29,4 +29,13 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function employee(){
+        return $this->hasMany(Employee::class);
+    }
+
+    public function tasks(){
+        return $this->hasMany('App\Task', 'user_id');
+    }
+
 }

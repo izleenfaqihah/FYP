@@ -19,6 +19,15 @@ class ApprovalController extends Controller
         return view('approval', compact('approvals'));
     }
 
+    public function search (Request $request)
+    {
+        $search = $request -> get('search');
+        $approvals = DB::table('approvals')
+        -> where ('proposal_name', 'like', '%' .$search.'%')
+        -> orWhere ('status', 'like', '%' .$search.'%')->paginate(5);
+        return view('approval', compact('approvals'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -86,6 +95,7 @@ class ApprovalController extends Controller
     {
         //
     }
+
 
     /**
      * Update the specified resource in storage.

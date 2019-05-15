@@ -20,7 +20,7 @@ class Employee
             return $next($request);
         }
         else{
-            return redirect('/admin');
+            return redirect('/home');
         }
     }
 }

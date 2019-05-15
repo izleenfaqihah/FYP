@@ -15,6 +15,8 @@ class CreateEmployeesTable extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->increments('employee_id');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('user_id')->on('users');
             $table->string('employee_number');
             $table->string('employee_name');
             $table->string('employee_email');

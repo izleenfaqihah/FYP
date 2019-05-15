@@ -17,4 +17,8 @@ class Task extends Model
     public function event(){
         return $this->hasMany(Event::class);
     }
+
+    public function user(){
+    	return $this->belongsTo('App\User');
+    }
 }

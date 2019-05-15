@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\File;
+use App\Folder;
 use Storage;
 use Response;
 
@@ -38,6 +39,7 @@ class FileController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
+            'folder_id' => 'required|string|max:255',
             'document' => 'file|nullable|max:1999'
         ]);
 
@@ -61,6 +63,7 @@ class FileController extends Controller
 
         // Create File
         $file = new File();
+        $file->folder_id = $folder_id;
         $file-> document = $fileNameToStore;
         $file->save();
 

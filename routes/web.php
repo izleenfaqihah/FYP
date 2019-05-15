@@ -18,7 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 //DASHBOARD
-// Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home');
 Route::get('events', 'EventController@index')->name('events');
 
 //FOLDER
@@ -47,7 +47,9 @@ Route::patch('/task/update/{id}', 'TaskController@update')->name('task.update');
 Route::get('/task/delete/{id}', 'TaskController@destroy')->name('task.delete');
 
 //SEARCH
-Route::get('/search', 'ThreeController@search');
+Route::get('search/approval', 'ApprovalController@search')->name('approval.search');
+Route::get('search/employee', 'EmployeeController@search')->name('employee.search');
+Route::get('search/task', 'TaskController@search')->name('task.search');
 
 //Approval
 Route::get('approval', 'ApprovalController@index')->name('approval');
@@ -55,9 +57,10 @@ Route::post('approval', 'ApprovalController@store')->name('approval.submit');
 Route::get('/approval/delete/{id}', 'ApprovalController@destroy')->name('approval.delete');
 Route::patch('/approval/update/{id}', 'ApprovalController@update')->name('approval.update');
 
-//Employee
-Route::get('/employee', 'Auth\RegisterController@getEmployee')->name('employee');
 
+//Employee
+Route::get('/employee', 'EmployeeController@index')->name('employee');
+Route::post('/employee/submit', 'EmployeeController@store')->name('employee.submit');
 
 //ANALYTIC
 Route::get('/analytic', 'AnalyticController@getAnalytic')->name('analytic');

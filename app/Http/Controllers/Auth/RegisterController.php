@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Employee;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -78,10 +79,4 @@ class RegisterController extends Controller
         ]);
     }
 
-    public function getEmployee()
-    {
-            $users = User::paginate(3);
-            return view('employee', compact('users'));
-
-    }
 }

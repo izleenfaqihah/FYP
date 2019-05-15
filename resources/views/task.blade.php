@@ -47,8 +47,11 @@
 
     <div class="container">
         <div class="row justify-content-center">
-            <input type="text"  placeholder="Search" name="search">
-            <button class="btn fa fa-search my-2 my-sm-0" style="font-size:24px;color:grey" type="submit"></button>
+            <form action="{{route('task.search')}}" method="get">
+                {{csrf_field()}}
+                <input type="text" placeholder="Search" name="search">
+                <button class="btn fa fa-search my-2 my-sm-0" style="font-size:24px;color:grey" type="submit"></button>
+            </form>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button class="btn" style="font-size:18px;color:grey" data-toggle="modal" data-target="#myTask"><i class="glyphicon glyphicon-plus"></i> New Task</button>
         </div>   
@@ -114,7 +117,6 @@
                                 		@endforeach
 		                            </tbody>
 		                        </table>
-			                 {{ $tasks->links() }}
 			            </div>
 			        </div>
 			    </div>
@@ -147,6 +149,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <input type="hidden" value="{{ Auth::user()->user_id }}" name="user_id">
                                         <td><input type="text" name="project_name" id="project_name-name" class="form-control" required=""></td>
                                         <td><input type="text" name="name" id="task-name" class="form-control" required=""></td>
                                         <td>
@@ -194,13 +197,13 @@
                         <div class="form-group">
                             <label for="project_name" class="col-md-2 col-form-label text-md-right">{{ __('Project Title') }}</label>
                             <div class="col-md-8">                               
-                                <input id="project_name" type="text" value="{{ @$task['project_name'] }}"  class="form-control" name="project_name">
+                                <input id="project_name" type="text" value="{{ $task->project_name }}"  class="form-control" name="project_name">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="name" class="col-md-2 col-form-label text-md-right">{{ __('Task') }}</label>
                             <div class="col-md-8">                               
-                                <input id="name" type="text" value="{{ @$task['name'] }}"  class="form-control" name="name">
+                                <input id="name" type="text" value="{{ $task->name }}"  class="form-control" name="name">
                             </div>
                         </div>
                         <div class="form-group">
@@ -218,7 +221,7 @@
                         <div class="form-group">
                             <label for="percentage" class="col-md-2 col-form-label text-md-right">{{ __('Progress') }}</label>
                             <div class="col-md-8">                               
-                                <input id="percentage" type="text" value="{{ @$task['percentage'] }}"  class="form-control" name="percentage">
+                                <input id="percentage" type="text" value="{{ $task->percentage }}"  class="form-control" name="percentage">
                             </div>
                         </div>
                         <div class="form-group">
@@ -234,13 +237,13 @@
                         <div class="form-group">
                             <label for="start_date" class="col-md-2 col-form-label text-md-right">{{ __('Start Date') }}</label>
                             <div class="col-md-8">                               
-                                <input id="start_date" type="text" value="{{ @$task['start_date'] }}"  class="form-control" name="start_date">
+                                <input id="start_date" type="text" value="{{ $task->start_date }}"  class="form-control" name="start_date">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="due_date" class="col-md-2 col-form-label text-md-right">{{ __('End Date') }}</label>
                             <div class="col-md-8">                               
-                                <input id="due_date" type="text" value="{{ @$task['due_date'] }}"  class="form-control" name="due_date">
+                                <input id="due_date" type="text" value="{{ $task->due_date }}"  class="form-control" name="due_date">
                             </div>
                         </div>
                     
