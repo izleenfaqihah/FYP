@@ -63,7 +63,7 @@
     	<div class="row">
     		<div class="col-md-12">
     			<div class="card">
-                    <div class="card-header" align="center">All The Tasks</div>
+                    <div class="card-header" align="center" style="background-color: lightblue">All The Tasks</div>
                 		<div class="card-body">
                 			
 						            {{csrf_field()}}
@@ -105,9 +105,8 @@
                                             <td>{{$task->start_date}}</td>
                                 			<td>{{$task->due_date}}</td>
                                 			<td>
-                                				<button class="btn btn-info" data-toggle="modal" data-target="#edit-modal">
-                                        			<span class="glyphicon glyphicon-edit"></span> 
-                                        		</button>
+                                				
+                                                <a href="{{ route('task.edit',['task_id' => $task->task_id]) }}" class="btn btn-info"><span class="glyphicon glyphicon-edit"></span></a>
                                 				
                                 				<a class="btn btn-danger" onclick="return myFunction();" href="{{ route('task.delete',['task_id' => $task->task_id]) }}">
                                 					<i class="fa fa-trash"></i>
@@ -177,90 +176,6 @@
     </div>
   </div>
 
-@foreach($tasks as $task)
-		<!-- Edit Modal -->
-  <div class="modal fade" id="edit-modal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 style="margin: 10">Edit</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>                
-                </div>
-                <form action="{{ route('task.update',['task_id' => $task->task_id]) }}" method="post" class="form-horizontal" role="form">
-                        @csrf
-                        @method('PATCH')
-                <div class="modal-body">
-
-                        <div class="form-group">
-                            <label for="project_name" class="col-md-2 col-form-label text-md-right">{{ __('Project Title') }}</label>
-                            <div class="col-md-8">                               
-                                <input id="project_name" type="text" value="{{ $task->project_name }}"  class="form-control" name="project_name">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="name" class="col-md-2 col-form-label text-md-right">{{ __('Task') }}</label>
-                            <div class="col-md-8">                               
-                                <input id="name" type="text" value="{{ $task->name }}"  class="form-control" name="name">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="status" class="col-md-2 col-form-label text-md-right">{{ __('Status') }}</label>
-                            <div class="col-md-8">                               
-                                <select name="status" id="task-status" onchange="this.className=this.options[this.selectedIndex].className" class="important form-control" required="">
-                                    <option class="form-control">In Progress</option>
-		                           	<option class="form-control">Waiting For Review</option>
-                                    <option class="form-control">Stuck</option>
-		                            <option class="form-control">Completed</option>
-		                            		                            	
-		                        </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="percentage" class="col-md-2 col-form-label text-md-right">{{ __('Progress') }}</label>
-                            <div class="col-md-8">                               
-                                <input id="percentage" type="text" value="{{ $task->percentage }}"  class="form-control" name="percentage">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="priority" class="col-md-2 col-form-label text-md-right">{{ __('Priority') }}</label>
-                            <div class="col-md-8">                               
-                                <select name="priority" id="priority" class="important form-control" required="">
-                                    <option class="form-control">High</option>
-                                    <option class="form-control">Medium</option>
-                                    <option class="form-control">Low</option>                                  
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="start_date" class="col-md-2 col-form-label text-md-right">{{ __('Start Date') }}</label>
-                            <div class="col-md-8">                               
-                                <input id="start_date" type="text" value="{{ $task->start_date }}"  class="form-control" name="start_date">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="due_date" class="col-md-2 col-form-label text-md-right">{{ __('End Date') }}</label>
-                            <div class="col-md-8">                               
-                                <input id="due_date" type="text" value="{{ $task->due_date }}"  class="form-control" name="due_date">
-                            </div>
-                        </div>
-                    
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-info">
-                        <span class="glyphicon glyphicon-edit"></span> Yes </button>
-                        <button type="button" class="btn btn-warning" data-dismiss="modal">
-                            <span class='glyphicon glyphicon-remove'></span> Cancel
-                        </button>
-                    </div>
-                </div>
-            </form>
-            </div>
-        </div>
-    </div>
-  </div>
-@endforeach
 		<script type="text/javascript">
 			$('.date').datepicker({
 		        autoclose: true,

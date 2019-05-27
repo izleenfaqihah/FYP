@@ -93,7 +93,9 @@ class ApprovalController extends Controller
      */
     public function edit($id)
     {
-        //
+        $approval = Approval::find($id);
+
+        return view('edit.eapproval', compact('approval', 'id'));
     }
 
 

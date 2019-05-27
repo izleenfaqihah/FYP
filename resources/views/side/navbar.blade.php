@@ -24,7 +24,7 @@
     <a href="{{ route('task') }}" class="list-group-item"><i class="glyphicon glyphicon-list"></i> <span>Task</span></a>
     <a href="{{ route('approval') }}" class="list-group-item"><i class="glyphicon glyphicon-check"></i> <span>Approval</span></a>
     <a href="{{ route('employee') }}" class="list-group-item"><i class="glyphicon glyphicon-user"></i> <span>Employee</span></a>
-    <a href="{{ route('analytic') }}" class="list-group-item"><i class="fa fa-bar-chart"></i> <span>Analytic</span></a>
+    <a href="{{ route('analytic') }}" class="list-group-item"><i class="fa fa-bar-chart"></i> <span>Report</span></a>
 
 
   </div>

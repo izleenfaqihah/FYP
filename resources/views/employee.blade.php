@@ -45,7 +45,7 @@
 </style>
 <body>
 
-    <div class="container">
+    <!-- <div class="container">
         <div class="row justify-content-center">
             <form action="{{route('employee.search')}}" method="get">
                 {{csrf_field()}}
@@ -53,16 +53,21 @@
                 <button class="btn fa fa-search my-2 my-sm-0" style="font-size:24px;color:grey" type="submit"></button>
             </form>
         </div>   
-    </div>
+    </div> -->
 
-<br><br>
+
 
     <div class="container">
     	<div class="row">
     		<div class="col-md-12">
     			<div class="card">
-                    <div class="card-header" align="center">All The Employees</div>
+                    <div class="card-header" align="center" style="background-color: lightblue">All The Employees</div>
                 		<div class="card-body">
+                            <form action="{{route('employee.search')}}" method="get">
+                                {{csrf_field()}}
+                                <input type="text" placeholder="Search Employee" name="search" style="width: 95%">
+                                <button class="btn fa fa-search my-2 my-sm-0" style="font-size:24px;color:darkgrey" type="submit"></button>
+                            </form> <br>
                 			
 						            {{csrf_field()}}
 						        

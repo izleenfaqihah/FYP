@@ -17,7 +17,7 @@ class FileController extends Controller
      */
     public function index()
     {
-        //
+      
     }
 
     /**
@@ -39,8 +39,8 @@ class FileController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'folder_id' => 'required|string|max:255',
-            'document' => 'file|nullable|max:1999'
+            'document' => 'file|nullable|max:1999',
+            'category' => 'required|string|max:255'
         ]);
 
         // Handle File Upload
@@ -63,8 +63,8 @@ class FileController extends Controller
 
         // Create File
         $file = new File();
-        $file->folder_id = $folder_id;
         $file-> document = $fileNameToStore;
+        $file-> category = $request -> input('category');
         $file->save();
 
         $file = File::latest()->first();
@@ -94,7 +94,9 @@ class FileController extends Controller
      */
     public function edit($id)
     {
-        //
+        $file = File::find($id);
+
+        return view('edit.efile', compact('file', 'id'));
     }
 
     /**

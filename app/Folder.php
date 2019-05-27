@@ -12,8 +12,8 @@ class Folder extends Model
 
     protected $table = 'folders';
 
-    public function file(){
-        return $this->hasMany('App\File');
+    public function filetwos(){
+        return $this->hasMany('App\FileTwo', 'folder_id');
     }
 
 }

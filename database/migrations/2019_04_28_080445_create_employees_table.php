@@ -22,6 +22,7 @@ class CreateEmployeesTable extends Migration
             $table->string('employee_email');
             $table->string('employee_phone');
             $table->string('employee_address');
+            $table->string('gender');
             $table->timestamps();
         });
     }

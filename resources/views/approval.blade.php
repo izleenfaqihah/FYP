@@ -55,7 +55,7 @@
     	<div class="row justify-content-center">
     		<div class="col-md-10">
     			<div class="card">
-                    <div class="card-header" align="center">Approvals</div>
+                    <div class="card-header" align="center" style="background-color: lightblue">Approvals</div>
                 		<div class="card-body">
                 			
 						            {{csrf_field()}}
@@ -84,9 +84,8 @@
                                             </td>
                                             <td>{{$approval->description}}</td>
                                             <td>
-                                                <button class="btn btn-info" data-toggle="modal" data-target="#edit-modal">
-                                                    <span class="glyphicon glyphicon-edit"></span> 
-                                                </button>
+                                                
+                                                <a href="{{ route('approval.edit',['approval_id' => $approval->approval_id]) }}" class="btn btn-info"><span class="glyphicon glyphicon-edit"></span></a>
                                                 
                                                 <a class="btn btn-danger" onclick="return myFunction();" href="{{ route('approval.delete',['approval_id' => $approval->approval_id]) }}">
                                                     <i class="fa fa-trash"></i>

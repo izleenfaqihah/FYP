@@ -19,17 +19,108 @@
 <body>
 
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-9">
-    
-
-	       <script type='text/javascript' src='https://us-east-1.online.tableau.com/javascripts/api/viz_v1.js'></script><div class='tableauPlaceholder' style='width: 1000px; height: 827px;'><object class='tableauViz' width='1000' height='827' style='display:none;'><param name='host_url' value='https%3A%2F%2Fus-east-1.online.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='&#47;t&#47;projekpengurusanarkitek' /><param name='name' value='Book2&#47;Dashboard1' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='showAppBanner' value='false' /><param name='filter' value='iframeSizedToWindow=true' /></object></div>
-           
-            </div>
-        </div>
+    <div class="row" style="padding-left: 130px; padding-bottom: 10px">
+      <form method="POST" action="{{ route('report.submit') }}" style="text-align: left;">
+        @csrf
+      <select class=”form-control” name='year' style="width:150px;" id='type'>
+        <option value=#>Please choose</option>
+        <option value=2019>2019</option>
+        <option value=2018>2018</option>
+        <option value=2017>2017</option>
+        <option value=2016>2016</option>
+        <option value=2015>2015</option>
+      </select>
+      <button type="submit" class="btn btn-outline-primary">
+        {{ __('Submit') }}
+      </button>          
+      </form>
     </div>
+  </div>
+
+  <div class="container">     
+        <div class="row">
+          <div class="col-md-6">
+            <div class="container">
+              <div class="row justify-content-center">
+                <div class="col-md-10">
+                  <div class="card border-warning" style="width: 60%">
+                    <div class="card-header border-warning" style="background-color: white">    
+                      Bar Chart
+                    </div>
+                  <div class="card-body">
+                    {!! $chart->html() !!}
+                  </div>
+            </div>            
+          </div>
+        </div>
+      </div>
+          </div>
+          <div class="col-md-6">
+            <div class="container">
+              <div class="row justify-content-center">
+                <div class="col-md-10">
+                  <div class="card border-info" style="width: 60%">
+                    <div class="card-header border-info" style="background-color: white">    
+                      Line Chart
+                    </div>
+                        <div class="card-body">
+                          {!! $line_chart->html() !!}
+                        </div>
+                  </div>            
+                </div>
+              </div>
+            </div>   
+          </div>
+        </div>
+      </div>
+<br>
+        
+        <div class="container">     
+        <div class="row">
+          <div class="col-md-6">
+            <div class="container">
+              <div class="row justify-content-center">
+                <div class="col-md-10">
+                  <div class="card border-danger" style="width: 60%">
+                    <div class="card-header border-danger" style="background-color: white">    
+                      Donut Chart
+                    </div>
+                  <div class="card-body">
+                    {!! $donut_chart->html() !!}
+                  </div>
+            </div>            
+          </div>
+        </div>
+      </div>
+          </div>
+          <div class="col-md-6">
+            <div class="container">
+              <div class="row justify-content-center">
+                <div class="col-md-10">
+                  <div class="card border-success" style="width: 60%">
+                    <div class="card-header border-success" style="background-color: white">    
+                      Area Chart
+                    </div>
+                        <div class="card-body">
+                          {!! $area_chart->html() !!}
+                        </div>
+                  </div>            
+                </div>
+              </div>
+            </div>   
+          </div>
+        </div>
+      </div>
 
 </body>
 </html>
+
+
+    {!! Charts::scripts() !!}
+
+    {!! $chart->script() !!}
+    {!! $area_chart->script() !!}
+    {!! $donut_chart->script() !!}
+    {!! $line_chart->script() !!}
 
 @endsection

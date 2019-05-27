@@ -73,12 +73,12 @@
                 <input type="text"  placeholder="Search" name="search">
                 <button class="btn fa fa-search my-2 my-sm-0" style="font-size:24px;color:grey" type="submit"></button>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <button class="btn" id="myBtn" style="font-size:18px;color:grey"><i class="glyphicon glyphicon-plus"></i> New Folder</button>
+                <!-- <button class="btn" id="myBtn" style="font-size:18px;color:grey"><i class="glyphicon glyphicon-plus"></i> New Folder</button> -->
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <button class="btn" style="font-size:18px;color:grey" data-toggle="modal" data-target="#myModal2"><i class="fa fa-upload"></i> Upload</button>
             <div class="col-md-10"><br>
             <div class="panel panel-default">
-                <div class="panel-heading">
+                <div class="panel-heading" style="background-color: lightblue">
                     <ul>
                         <li><i class="fa fa-file-text-o"></i> All the documents</li>
                         <!-- <a href="#" class="add-modal"><li></li></a> -->
@@ -91,6 +91,7 @@
                             <tr>
                                 
                                 <th>Name</th>
+                                <th>Category</th>
                                 <th>Date Added</th>
                                 <th>Actions</th>
                             </tr>
@@ -98,9 +99,10 @@
                         </thead>
                         <tbody>
                             
-                            @foreach($folders as $folder)
+                            <!-- @foreach($folders as $folder)
                                 <tr>
                                     <td><a href="{{ route('folderDetails',$folder->folder_id) }}">{{$folder->folder_name}}</a></td>
+                                    <td></td>
                                     <td>{{$folder->created_at}}</td>
                                     <td>
                                         
@@ -112,16 +114,17 @@
                                         </a>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @endforeach -->
 
                             @foreach($file as $fi)
                                 <tr>   
-                                    <td><a href="<?php echo asset("storage/files/{$fi->document}")?>">{{$fi->document}}</a></td>
+                                    
+                                    <td><a href ="<?php echo asset("storage/files/$fi->document")?>">{{ basename($fi->document) }}</td> </a>
+                                    <td>{{$fi->category}}</td>
                                     <td>{{$fi->created_at}}</td>
                                     <td>
                                         
-                                        <button class="btn btn-info" data-toggle="modal" data-target="#edit-file">
-                                        <span class="glyphicon glyphicon-edit"></span> </button>
+                                        <a href="{{ route('file.edit',['file_id' => $fi->file_id]) }}" class="btn btn-info"><span class="glyphicon glyphicon-edit"></span></a>
                                 
                                         <a class="btn btn-danger" onclick="return myFunction();" href="{{ route('file.delete',['file_id' => $fi->file_id]) }}">
                                             <i class="fa fa-trash"></i>
@@ -193,6 +196,19 @@
                                     </span>
                                 @endif
                         </div>
+                        <div class="form-group">
+                            <label for="category" class="col-md-2 col-form-label text-md-right">{{ __('Category') }}</label>
+                            <div class="col-md-8">                               
+                                <select name="category" id="category" class="important form-control" required="">
+                                    <option class="form-control">Residential</option>
+                                    <option class="form-control">Institutional</option> 
+                                    <option class="form-control">Assembly</option>
+                                    <option class="form-control">Industrial</option> 
+                                    <option class="form-control">Business</option>
+                                    <option class="form-control">Mercantile</option>                                            
+                                </select>
+                            </div>
+                        </div>
                         <button type="submit" class="btn btn-success" style="margin-top:10px" name="submitbutton" value="upload">
                         <span class="glyphicon glyphicon-upload"></span> Upload </button>
                         <button type="button" class="btn btn-warning" style="margin-top:10px" data-dismiss="modal">
@@ -203,96 +219,6 @@
         </div>
     </div>
   </div>
-
-@foreach($folders as $folder)
-  <!-- Edit Modal -->
-  <div class="modal fade" id="edit-modal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 style="margin: 10">Edit</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>                
-                </div>
-                <form action="{{ route('folder.update',['folder_id' => $folder->folder_id]) }}" method="post" class="form-horizontal" role="form">
-                        @csrf
-                        @method('PATCH')
-                <div class="modal-body">
-                    
-                        <div class="form-group">
-                            <label for="folder_name" class="col-md-2 col-form-label text-md-right">{{ __('Rename') }}</label>
-                            <div class="col-md-8">                               
-                                <input id="folder_name" type="text" value="{{ @$folder['folder_name'] }}"  class="form-control" name="folder_name">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="created_at" class="col-md-2 col-form-label text-md-right">{{ __('Date') }}</label>
-                            <div class="col-md-8">                               
-                                <input id="created_at" type="text" value="{{ @$folder['created_at'] }}"  class="form-control" name="created_at">
-                            </div>
-                        </div>
-                    
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-info">
-                        <span class="glyphicon glyphicon-edit"></span> Yes </button>
-                        <button type="button" class="btn btn-warning" data-dismiss="modal">
-                            <span class='glyphicon glyphicon-remove'></span> Cancel
-                        </button>
-                    </div>
-                </div>
-            </form>
-            </div>
-        </div>
-    </div>
-  </div>
-@endforeach
-
-@foreach($file as $fi)
-  <!-- Edit File -->
-  <div class="modal fade" id="edit-file" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 style="margin: 10">Edit</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>                
-                </div>
-                <form action="{{ route('file.update',['file_id' => $fi->file_id]) }}" method="post" class="form-horizontal" role="form">
-                        @csrf
-                        @method('PATCH')
-                <div class="modal-body">
-                    
-                        <div class="form-group">
-                            <label for="document" class="col-md-2 col-form-label text-md-right">{{ __('Rename') }}</label>
-                            <div class="col-md-8">                               
-                                <input id="document" type="text" value="{{ @$fi['document'] }}"  class="form-control" name="document">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="created_at" class="col-md-2 col-form-label text-md-right">{{ __('Date') }}</label>
-                            <div class="col-md-8">                               
-                                <input id="created_at" type="text" value="{{ @$fi['created_at'] }}"  class="form-control" name="created_at">
-                            </div>
-                        </div>
-                    
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-info">
-                        <span class="glyphicon glyphicon-edit"></span> Yes </button>
-                        <button type="button" class="btn btn-warning" data-dismiss="modal">
-                            <span class='glyphicon glyphicon-remove'></span> Cancel
-                        </button>
-                    </div>
-                </div>
-            </form>
-            </div>
-        </div>
-    </div>
-  </div>
-@endforeach
 
 <script>
 //new folder
